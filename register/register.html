@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register</title>
+    <link rel="stylesheet" href="../landingPage/style.css" />
+    <style>
+      section {
+        margin-top: 100px;
+        text-align: center;
+      }
+
+      form {
+        flex-direction: column;
+        align-items: center;
+        flex: 2;
+      }
+
+      .formGroup {
+        width: 30%;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+      }
+
+      input {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <section>
+      <h3>Create New Group</h3>
+      <form action="" class="flex">
+        <div class="formGroup">
+          <label for="">Group Name</label>
+          <input type="text" id="name" name="name" />
+        </div>
+        <div class="formGroup">
+          <label for="">Organization Name</label>
+          <select id="Orgs" name="Orgs">
+            <option value="Org1">Org 1</option>
+            <option value="Org2">Org 2</option>
+            <option value="Org3">Org 3</option>
+            <option value="Org4">Org 4</option>
+          </select>
+        </div>
+        <div class="formGroup">
+          <label for="">Max Group Size</label>
+          <input
+            type="number"
+            name="size"
+            id="size"
+            max="20"
+            min="2"
+            step="1"
+            value="10"
+          />
+        </div>
+        <div class="formGroup">
+          <label for="">Group Description</label>
+          <textarea
+            name="description"
+            id="description"
+            cols="80"
+            rows="10"
+            spellcheck="true"
+          >
+          </textarea>
+        </div>
+        <button>Submit</button>
+      </form>
+    </section>
+  </body>
+</html>

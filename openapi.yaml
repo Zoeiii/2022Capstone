@@ -1,0 +1,249 @@
+openapi: 3.0.0
+info:
+  title: JB Hunt Capstone API
+  description: API used to create and manage the registration of teams for an event. The theme of the event is up to you - a scavenger hunt? a cooking contest? a boat race? a soccer league? a superhero costume party? It might even be community involvement event like reading to 3rd graders?
+  contact:
+    name: Develop Intelligence - a Pluralsight Company
+    url: https://urldefense.com/v3/__https://www.developintelligence.com/__;!!Dri3fcY4!jxYE3amiGdaT8LRTefkhqdE7yRAbKvOd6XEZ8Bpwn3yu3Fc8ceZPjWucDElMkI2dGBUwZIVOq4zU7QFAFFc$ 
+    email: kevin@kevinruse.com
+  version: 1.0.0
+servers:
+- url: https://urldefense.com/v3/__http://localhost:8082__;!!Dri3fcY4!jxYE3amiGdaT8LRTefkhqdE7yRAbKvOd6XEZ8Bpwn3yu3Fc8ceZPjWucDElMkI2dGBUwZIVOq4zUJSe3Wo8$ 
+  description: Development server
+paths:
+  /api/organizations:
+    get:
+      responses:
+        200: 
+          description: returns a list of all the organizations
+          content: 
+            application/json:
+              schema: 
+                type: array
+                items:
+                    properties:
+                      OrganizationName:
+                        type: string
+                        example: Organization One
+                      OrganizationId:
+                        type: string
+                        example: Org1
+                      Description:
+                        type: string
+                        example: This is organization 1
+  /api/groups:
+    get:
+      responses:
+        200: 
+          description: returns a list of all the groups
+          content: 
+            application/json:
+              schema: 
+                type: array
+                items:
+                    properties:
+                      GroupId:
+                        type: integer
+                        example: 1
+                      GroupName:
+                        type: string
+                        example: United Front
+                      OrganizationName:
+                        type: string
+                        example: Organization One
+                      SponsorName:
+                        type: string
+                        example: Natalie Rachelle
+                      SponsorPhone:
+                        type: string
+                        example: 555-000-0000
+                      SponsorEmail:
+                        type: string
+                        example: nat214@gmail.com
+                      MaxGroupSize:
+                        type: integer
+                        example: 7
+                      Members:
+                        type: array
+                        items:
+                          properties:
+                            MemberId:
+                              type: integer
+                              example: 2
+                            MemberEmail:
+                              type: string
+                              example: theatrekid0625@gmail.com
+                            MemberName:
+                              type: string
+                              example: Ezra Aiden
+                            MemberPhone:
+                              type: string
+                              example: 555-000-0002
+    post:
+      description: add a group
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Group'
+      responses:
+        200:
+          description: group has been created
+  /api/groups/{groupId}:
+    get:
+      parameters:
+        - in: path
+          name: groupId
+          description: Group to be returned
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        200:
+          description: returns a single group by id
+          content: 
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/Group'
+  /api/groups/byorganization/{id}:
+    get:
+      description: returns a single organization by its ID
+      parameters:
+        - in: path
+          name: id
+          description: returns many groups by organization
+          required: true
+          schema:
+            type: string
+            example: 1
+      responses:
+        200:
+          description: returns many groups by organization
+          content: 
+            application/json:
+              schema: 
+                type: array
+                items:
+                    properties:
+                      GroupId:
+                        type: integer
+                        example: 1
+                      GroupName:
+                        type: string
+                        example: United Front
+                      OrganizationName:
+                        type: string
+                        example: Organization One
+                      SponsorName:
+                        type: string
+                        example: Natalie Rachelle
+                      SponsorPhone:
+                        type: string
+                        example: 555-000-0000
+                      SponsorEmail:
+                        type: string
+                        example: nat214@gmail.com
+                      MaxGroupSize:
+                        type: integer
+                        example: 7
+                      Members:
+                        type: array
+                        items:
+                          properties:
+                            MemberId:
+                              type: integer
+                              example: 2
+                            MemberEmail:
+                              type: string
+                              example: theatrekid0625@gmail.com
+                            MemberName:
+                              type: string
+                              example: Ezra Aiden
+                            MemberPhone:
+                              type: string
+                              example: 555-000-0002
+  /api/groups/{groupid}/members/{memberid}:
+    get:
+      description: returns a specific member in a specific group
+      parameters:
+        - in: path
+          name: groupid
+          description: the groupId
+          required: true
+          schema:
+            type: integer
+            example: 1
+        - in: path
+          name: memberid
+          description: the memberId
+          required: true
+          schema:
+            type: integer
+            example: 2
+      responses:
+        200:
+          description: returns a specific member in a specific group
+          content: 
+            application/json:
+              schema: 
+                type: object
+                items:
+                    properties:
+                      MemberId:
+                        type: integer
+                        example: 1
+                      MemberEmail:
+                        type: string
+                        example: thebro@gmail.com
+                      MemberPhone:
+                        type: string
+                        example: 555-000-0006
+components:
+  schemas:
+    Group:
+      type: object
+      properties:
+        GroupId:
+          type: integer
+          example: 1
+        GroupName:
+          type: string
+          example: United Front
+        OrganizationName:
+          type: string
+          example: Organization One
+        SponsorName:
+          type: string
+          example: Natalie Rachelle
+        SponsorPhone:
+          type: string
+          example: 555-000-0000
+        SponsorEmail:
+          type: string
+          example: nat214@gmail.com
+        MaxGroupSize:
+          type: integer
+          example: 7
+        Members:
+          type: array
+          items:
+            properties:
+              MemberId:
+                type: integer
+                example: 2
+              MemberEmail:
+                type: string
+                example: theatrekid0625@gmail.com
+              MemberName:
+                type: string
+                example: Ezra Aiden
+              MemberPhone:
+                type: string
+                example: 555-000-0002         
+  
+  
+ 
+    
+                              
+                        
