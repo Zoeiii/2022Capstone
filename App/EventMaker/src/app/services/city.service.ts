@@ -8,12 +8,12 @@ import { baseUrl } from './constant';
   providedIn: 'root',
 })
 export class CityService {
-  citiesUrl = `${baseUrl}organizations`;
+  private citiesUrl = `${baseUrl}organizations`;
 
   constructor(private http: HttpClient) {}
 
-  getAllCities():Observable<City>{
-    const results: Observable<City> = this.http.get<City>(this.citiesUrl);
+  getAllCities():Observable<Array<City>>{
+    const results: Observable<Array<City>> = this.http.get<Array<City>>(this.citiesUrl);
     console.log(`getAllCities() returned ${results} `);
     return results;
   };

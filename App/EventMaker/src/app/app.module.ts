@@ -10,10 +10,11 @@ import { FooterComponent } from './footer/footer.component';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { MenubarModule } from 'primeng/menubar';
-import { SearchComponent } from './search/search.component';
+import { SearchComponent } from './header/search/search.component';
 import { HomeComponent } from './home/home.component';
 import { EventsComponent } from './events/events.component';
 import { CitiesComponent } from './cities/cities.component';
+import { GalleriaModule } from 'primeng/galleria';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { CitiesComponent } from './cities/cities.component';
     InputTextModule,
     MenubarModule,
     HttpClientModule,
+    GalleriaModule
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { City } from '../models/city';
@@ -10,6 +10,7 @@ import { CityService } from '../services/city.service';
   styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent implements OnInit {
+  @Input() searchInput!:string;
   items!: MenuItem[];
   allCities!: any;
 
@@ -28,7 +29,7 @@ export class HeaderComponent implements OnInit {
             icon: 'pi pi-fw pi-home',
             //command is the onClick
             command: () => {
-              this.router.navigate(['home']);
+              this.router.navigate(['']);
             },
           },
         ];
@@ -39,11 +40,18 @@ export class HeaderComponent implements OnInit {
             icon: 'pi pi-fw pi-cloud',
             command: () => {
               console.log(`click and route to ${city.CityName}`);
-              this.router.navigate(['cities']);
+              this.router.navigate(['Cities']);
             },
           });
         });
       },
     });
+  }
+
+  submitByEnter(event: KeyboardEvent): void {
+    if(event.key === 'Enter'){
+      this.router.navigate(['Search']);
+      console.log(this.searchInput)
+    }
   }
 }

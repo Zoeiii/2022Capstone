@@ -3,24 +3,28 @@
 		"CityName": "New York City",
 		"CityId": 1,
 		"CityCode": "NY",
+		"CityImageSrc": "assets/image/Beach-BBQ.jpg",
 		"Description": "This is New York City"
 	},
 	{
 		"CityName": "Albany",
 		"CityId": 2,
 		"CityCode": "AB",
+		"CityImageSrc": "assets/image/boating.jpg",
 		"Description": "This is Albany"
 	},
 	{
 		"CityName": "Kingston",
 		"CityId": 3,
 		"CityCode": "KS",
+		"CityImageSrc": "assets/image/airBallons.jpg",
 		"Description": "This is Kingston"
 	},
 	{
 		"CityName": "Niagara Falls",
 		"CityId": 4,
 		"CityCode": "NF",
+		"CityImageSrc": "assets/image/UpcomingEvents.jpg",
 		"Description": "This is Niagara Falls"
 	}
 ]
