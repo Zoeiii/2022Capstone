@@ -1,0 +1,22 @@
+[
+	{
+		"CityName": "New York City",
+		"CityId": "NY",
+		"Description": "This is New York City"
+	},
+	{
+		"CityName": "Albany",
+		"CityId": "AB",
+		"Description": "This is Albany"
+	},
+	{
+		"CityName": "Kingston",
+		"CityId": "KS",
+		"Description": "This is Kingston"
+	},
+	{
+		"CityName": "Niagara Falls",
+		"CityId": "NF",
+		"Description": "This is Niagara Falls"
+	}
+]
