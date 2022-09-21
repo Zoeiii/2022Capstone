@@ -1,22 +1,26 @@
 [
 	{
 		"CityName": "New York City",
-		"CityId": "NY",
+		"CityId": 1,
+		"CityCode": "NY",
 		"Description": "This is New York City"
 	},
 	{
 		"CityName": "Albany",
-		"CityId": "AB",
+		"CityId": 2,
+		"CityCode": "AB",
 		"Description": "This is Albany"
 	},
 	{
 		"CityName": "Kingston",
-		"CityId": "KS",
+		"CityId": 3,
+		"CityCode": "KS",
 		"Description": "This is Kingston"
 	},
 	{
 		"CityName": "Niagara Falls",
-		"CityId": "NF",
+		"CityId": 4,
+		"CityCode": "NF",
 		"Description": "This is Niagara Falls"
 	}
 ]

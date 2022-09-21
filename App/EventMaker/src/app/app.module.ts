@@ -12,6 +12,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { MenubarModule } from 'primeng/menubar';
 import { SearchComponent } from './search/search.component';
 import { HomeComponent } from './home/home.component';
+import { EventsComponent } from './events/events.component';
+import { CitiesComponent } from './cities/cities.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +22,8 @@ import { HomeComponent } from './home/home.component';
     FooterComponent,
     SearchComponent,
     HomeComponent,
+    EventsComponent,
+    CitiesComponent,
   ],
   imports: [
     BrowserModule,
