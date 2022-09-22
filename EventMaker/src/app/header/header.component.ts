@@ -40,7 +40,7 @@ export class HeaderComponent implements OnInit {
             icon: 'pi pi-fw pi-cloud',
             command: () => {
               console.log(`click and route to ${city.CityName}`);
-              this.router.navigate(['Cities']);
+              this.router.navigate(['cities']);
             },
           });
         });
@@ -50,7 +50,7 @@ export class HeaderComponent implements OnInit {
 
   submitByEnter(event: KeyboardEvent): void {
     if(event.key === 'Enter'){
-      this.router.navigate(['Search']);
+      this.router.navigate(['search']);
       console.log(this.searchInput)
     }
   }

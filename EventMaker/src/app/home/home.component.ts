@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { City } from '../models/city';
 import { ImageNav } from '../models/image-nav';
@@ -12,7 +13,8 @@ import { CityService } from '../services/city.service';
 export class HomeComponent implements OnInit {
   images!: any[];
 
-  constructor(private cityService: CityService, private router: Router) {}
+  constructor(private cityService: CityService, private router: Router) {
+  }
 
   responsiveOptions:any[] = [
     {

@@ -14,23 +14,23 @@ export class EventService {
 
   constructor(private http: HttpClient) {}
 
-  getAllEvents(): Observable<Event> {
-    const results: Observable<Event> = this.http.get<Event>(this.eventsUrl);
+  getAllEvents(): Observable<Array<Event>> {
+    const results: Observable<Array<Event>> = this.http.get<Array<Event>>(this.eventsUrl);
     console.log(`getAllCities() returned ${results} `);
     return results;
   }
 
-  getEventsById(eventId: number): Observable<Event> {
+  getEventById(eventId: number): Observable<Event> {
     const results: Observable<Event> = this.http.get<Event>(`/${eventId}`);
-    console.log(`getEventsById(${eventId})returned ${results} `);
+    console.log(`getEventById(${eventId})returned ${results} `);
     return results;
   }
 
-  getEventsByCityId(cityId: number): Observable<Event> {
+  getEventsByCityCode(cityCode: string): Observable<Event> {
     const results: Observable<Event> = this.http.get<Event>(
-      `/byorganization/${cityId}`
+      `/byorganization/${cityCode}`
     );
-    console.log(`getEventsByCityId(${cityId})returned ${results} `);
+    console.log(`getEventsByCityId(${cityCode})returned ${results} `);
     return results;
   }
 

@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 
+import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { MenubarModule } from 'primeng/menubar';
@@ -30,6 +31,7 @@ import { MainComponent } from './main/main.component';
     MainComponent,
   ],
   imports: [
+    BreadcrumbModule,
     BrowserModule,
     AppRoutingModule,
     ButtonModule,
@@ -37,7 +39,7 @@ import { MainComponent } from './main/main.component';
     MenubarModule,
     HttpClientModule,
     GalleriaModule,
-    FormsModule
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
