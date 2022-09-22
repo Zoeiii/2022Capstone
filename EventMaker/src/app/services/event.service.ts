@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { EventGroup } from '../models/eventGroup';
 import { baseUrl } from './constant';
 
 @Injectable({
@@ -14,28 +15,28 @@ export class EventService {
 
   constructor(private http: HttpClient) {}
 
-  getAllEvents(): Observable<Array<Event>> {
-    const results: Observable<Array<Event>> = this.http.get<Array<Event>>(this.eventsUrl);
+  getAllEvents(): Observable<Array<EventGroup>> {
+    const results: Observable<Array<EventGroup>> = this.http.get<Array<EventGroup>>(this.eventsUrl);
     console.log(`getAllCities() returned ${results} `);
     return results;
   }
 
-  getEventById(eventId: number): Observable<Event> {
-    const results: Observable<Event> = this.http.get<Event>(`/${eventId}`);
+  getEventById(eventId: number): Observable<EventGroup> {
+    const results: Observable<EventGroup> = this.http.get<EventGroup>(`/${eventId}`);
     console.log(`getEventById(${eventId})returned ${results} `);
     return results;
   }
 
-  getEventsByCityCode(cityCode: string): Observable<Event> {
-    const results: Observable<Event> = this.http.get<Event>(
+  getEventsByCityCode(cityCode: string): Observable<EventGroup> {
+    const results: Observable<EventGroup> = this.http.get<EventGroup>(
       `/byorganization/${cityCode}`
     );
     console.log(`getEventsByCityId(${cityCode})returned ${results} `);
     return results;
   }
 
-  addEvent(event: Event): Observable<Event> {
-    const results: Observable<Event> = this.http.post<Event>(
+  addEvent(event: EventGroup): Observable<EventGroup> {
+    const results: Observable<EventGroup> = this.http.post<EventGroup>(
       this.eventsUrl,
       event,
       this.jsonContentTypeHeaders
@@ -44,8 +45,8 @@ export class EventService {
     return results;
   }
 
-  updateEvent(event: Event): Observable<Event> {
-    const results: Observable<Event> = this.http.put<Event>(
+  updateEvent(event: EventGroup): Observable<EventGroup> {
+    const results: Observable<EventGroup> = this.http.put<EventGroup>(
       this.eventsUrl,
       event,
       this.jsonContentTypeHeaders
@@ -54,8 +55,8 @@ export class EventService {
     return results;
   }
 
-  deleteEventById(eventId: number): Observable<Event> {
-    const results: Observable<Event> = this.http.delete<Event>(
+  deleteEventById(eventId: number): Observable<EventGroup> {
+    const results: Observable<EventGroup> = this.http.delete<EventGroup>(
       `/${eventId}`,
       this.jsonContentTypeHeaders
     );
