@@ -11,8 +11,8 @@ import { CityService } from '../services/city.service';
 })
 export class HeaderComponent implements OnInit {
   @Input() searchInput!:string;
+  @Input() allCities!: any;
   items!: MenuItem[];
-  allCities!: any;
 
   constructor(private router: Router, private cityService: CityService) {}
 

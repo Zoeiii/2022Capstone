@@ -6,7 +6,8 @@
         type="text"
         pInputText
         placeholder="Search"
-        [value]="searchInput"
+        name="search"
+        [(ngModel)]="searchInput"
         (keydown)="submitByEnter($event)"
       />
     </span>

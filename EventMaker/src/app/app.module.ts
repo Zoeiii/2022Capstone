@@ -15,6 +15,8 @@ import { HomeComponent } from './home/home.component';
 import { EventsComponent } from './events/events.component';
 import { CitiesComponent } from './cities/cities.component';
 import { GalleriaModule } from 'primeng/galleria';
+import { FormsModule } from '@angular/forms';
+import { MainComponent } from './main/main.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +27,7 @@ import { GalleriaModule } from 'primeng/galleria';
     HomeComponent,
     EventsComponent,
     CitiesComponent,
+    MainComponent,
   ],
   imports: [
     BrowserModule,
@@ -33,7 +36,8 @@ import { GalleriaModule } from 'primeng/galleria';
     InputTextModule,
     MenubarModule,
     HttpClientModule,
-    GalleriaModule
+    GalleriaModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent],
