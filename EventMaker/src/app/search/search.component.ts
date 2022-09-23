@@ -22,7 +22,6 @@ export class SearchComponent implements OnInit {
 
   constructor(
     private title: Title,
-    
     private router: Router,
     private eventService: EventService,
     private searchService: SearchService
