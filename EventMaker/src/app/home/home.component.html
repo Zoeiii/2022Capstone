@@ -1,5 +1,13 @@
-<section>
-  <h1>Description of the theme</h1>
+<section class="welcomeText">
+  <p>
+    Welcome to the place where you can find the most exciting events in the
+    cities of New York <br />
+    <small
+      >We only support four cities: New York City, Albany, Kingston, and Niagara
+      Falls <br />
+      More cities in the future</small
+    >
+  </p>
 </section>
 <p-galleria
   [value]="images"
@@ -16,7 +24,7 @@
       [src]="item.previewImageSrc"
       [name]="item.title"
       (click)="navigateToCity($event)"
-      style="width: 640px; height: 500px; display: block"
+      style="width: 640px; height: 60vh; display: block"
     />
   </ng-template>
   <ng-template pTemplate="caption" let-item>

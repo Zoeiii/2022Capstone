@@ -1,3 +1,15 @@
 img {
     cursor:pointer;
 }
+.welcomeText {
+    text-align: center;
+    font-size: 1.3em;
+    padding: 1rem;
+    background: #ffffff;
+    color: #495057;
+    height: 20vh;
+}
+
+.container {
+    height: 70vh;
+}
