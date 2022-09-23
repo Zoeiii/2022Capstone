@@ -8,6 +8,7 @@ export interface EventGroup {
   eventOrganizer: string;
   eventDetail: string;
   eventOverView: string;
+  currentAttendeeSize: number;
   maxAttendeeSize: number;
   location: string;
   startTime: Date;

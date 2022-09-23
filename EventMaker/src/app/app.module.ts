@@ -9,7 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
-import { SearchComponent } from './header/search/search.component';
+import { SearchComponent } from './search/search.component';
 import { HomeComponent } from './home/home.component';
 import { EventsComponent } from './events/events.component';
 import { CitiesComponent } from './cities/cities.component';
