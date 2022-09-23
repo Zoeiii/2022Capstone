@@ -3,8 +3,8 @@ import { Route, RouterModule, Routes } from '@angular/router';
 import { CitiesComponent } from './cities/cities.component';
 import { EventsComponent } from './events/events.component';
 import { HomeComponent } from './home/home.component';
-import { SearchComponent } from './header/search/search.component';
-import { MainComponent } from './main/main.component';
+import { SearchComponent } from './search/search.component';
+
 
 const fallbackRoute: Route = { path: '**', component: HomeComponent };
 const routes: Routes = [

@@ -1,8 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { City } from '../models/city';
 import { CityService } from '../services/city.service';
+import { SearchService } from '../services/search.service';
 
 @Component({
   selector: 'app-header',
@@ -10,11 +12,12 @@ import { CityService } from '../services/city.service';
   styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent implements OnInit {
-  @Input() searchInput!:string;
-  @Input() allCities!: any;
+  searchInput!: string;
+  allCities!: any;
   items!: MenuItem[];
 
-  constructor(private router: Router, private cityService: CityService) {}
+  constructor(private router: Router, private cityService: CityService, private searchService:SearchService) {
+  }
 
   ngOnInit(): void {
     this.initHeader();
@@ -49,9 +52,10 @@ export class HeaderComponent implements OnInit {
   }
 
   submitByEnter(event: KeyboardEvent): void {
-    if(event.key === 'Enter'){
+    if (event.key === 'Enter') {
       this.router.navigate(['search']);
-      console.log(this.searchInput)
+      console.log(this.searchInput);
+      this.searchService.searchInput$.next(this.searchInput);
     }
   }
 }

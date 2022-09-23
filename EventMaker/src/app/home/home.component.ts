@@ -13,7 +13,8 @@ import { CityService } from '../services/city.service';
 export class HomeComponent implements OnInit {
   images!: any[];
 
-  constructor(private cityService: CityService, private router: Router) {
+  constructor(private cityService: CityService, private router: Router, private title:Title) {
+    this.title.setTitle('Event Maker');
   }
 
   responsiveOptions:any[] = [
@@ -47,8 +48,12 @@ export class HomeComponent implements OnInit {
           };
           return image;
         });
-        console.log(this.images);
       },
     });
+  }
+
+  navigateToCity(event:any){
+    let cityName = event.target.name;
+    this.router.navigate([cityName]);
   }
 }

@@ -23,8 +23,9 @@
         <th pSortableColumn="CityName">
           City<p-sortIcon field="CityName"></p-sortIcon>
         </th>
+        <th>Attendee</th>
         <th pSortableColumn="MaxAttendeeSize">
-          Max Attendee Size<p-sortIcon field="MaxAttendeeSize"></p-sortIcon>
+          Max Attendee<p-sortIcon field="MaxAttendeeSize"></p-sortIcon>
         </th>
       </tr>
     </ng-template>
@@ -34,6 +35,11 @@
         <td>{{ events.EventOverView }}</td>
         <td>{{ events.EventOrganizer }}</td>
         <td>{{ events.CityName }}</td>
+        <td>
+          <span *ngFor="let member of events.Members">
+            {{ member.MemberName }}
+          </span>
+        </td>
         <td>{{ events.MaxAttendeeSize }}</td>
       </tr>
     </ng-template>

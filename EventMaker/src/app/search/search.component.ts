@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { EventGroup } from 'src/app/models/eventGroup';
 import { EventService } from 'src/app/services/event.service';
+import { SearchService } from '../services/search.service';
 
 @Component({
   selector: 'app-search',
@@ -18,12 +20,21 @@ export class SearchComponent implements OnInit {
   events!: Array<EventGroup>;
   errorMessage!: string;
 
-  constructor(private titleService: Title, private eventService: EventService) {
-    this.titleService.setTitle('Search for Events');
+  constructor(
+    private title: Title,
+    
+    private router: Router,
+    private eventService: EventService,
+    private searchService: SearchService
+  ) {
+    this.title.setTitle('Search for Events');
+    this.searchService.searchInput$.subscribe({
+      next: (res:string) => {this.searchInput = res;
+      console.log("search component:", this.searchInput)}
+    });
   }
 
   ngOnInit(): void {
-    console.log(this.searchInput);
     this.getAllEvents();
   }
 
@@ -31,7 +42,7 @@ export class SearchComponent implements OnInit {
     this.eventService.getAllEvents().subscribe({
       next: (res: Array<EventGroup>) => {
         this.events = res;
-        console.log("this is all the events: ", this.events);
+        console.log('this is all the events: ', this.events);
       },
       error: (err) => {
         this.errorMessage = err;

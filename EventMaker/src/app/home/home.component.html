@@ -10,11 +10,12 @@
   [transitionInterval]="2000"
   [showThumbnails]="false"
   [showIndicators]="true"
-
 >
   <ng-template pTemplate="item" let-item>
     <img
       [src]="item.previewImageSrc"
+      [name]="item.title"
+      (click)="navigateToCity($event)"
       style="width: 640px; height: 500px; display: block"
     />
   </ng-template>
