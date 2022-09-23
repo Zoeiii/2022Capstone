@@ -75,4 +75,8 @@ export class SearchComponent implements OnInit {
       this.events = this.allEvents;
     }
   }
+
+  route(): void {
+    this.router.navigate(['group']);
+  }
 }

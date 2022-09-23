@@ -34,7 +34,7 @@
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-events>
-      <tr>
+      <tr (click)="route()" class="pointerCursor">
         <td>{{ events.EventName }}</td>
         <td>{{ events.EventOverView }}</td>
         <td>{{ events.EventOrganizer }}</td>
