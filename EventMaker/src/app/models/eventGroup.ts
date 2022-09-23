@@ -1,17 +1,17 @@
 import { Attendee } from "./attendee";
 
 export interface EventGroup {
-  eventId: number;
-  eventName: string;
-  eventPic: string;
-  cityName: string;
-  eventOrganizer: string;
-  eventDetail: string;
-  eventOverView: string;
-  currentAttendeeSize: number;
-  maxAttendeeSize: number;
-  location: string;
-  startTime: Date;
-  endTime: Date;
-  attendee: Array<Attendee>;
+  EventId: number;
+  EventName: string;
+  EventPic: string;
+  CityName: string;
+  EventOrganizer: string;
+  EventDetail: string;
+  EventOverView: string;
+  CurrentAttendeeSize: number;
+  MaxAttendeeSize: number;
+  Location: string;
+  StartTime: Date;
+  EndTime: Date;
+  Attendee: Array<Attendee>;
 }

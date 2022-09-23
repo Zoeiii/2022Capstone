@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Title } from '@angular/platform-browser';
+import { EventManager, Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { EventGroup } from 'src/app/models/eventGroup';
@@ -17,6 +17,7 @@ export class SearchComponent implements OnInit {
     { label: 'Search', url: '/search' },
   ];
   searchInput!: string;
+  allEvents!: Array<EventGroup>;
   events!: Array<EventGroup>;
   errorMessage!: string;
 
@@ -27,21 +28,32 @@ export class SearchComponent implements OnInit {
     private searchService: SearchService
   ) {
     this.title.setTitle('Search for Events');
+    this.getAllEvents();
     this.searchService.searchInput$.subscribe({
-      next: (res:string) => {this.searchInput = res;
-      console.log("search component:", this.searchInput)}
+      next: (res: string) => {
+        this.searchInput = res;
+        console.log('search component:', this.searchInput);
+        this.searchEventByName(res);
+        console.log(this.events);
+      },
+      error: (err) => {
+        this.errorMessage = err;
+        console.log(this.errorMessage);
+      },
+      complete: () => {
+        console.log(`complete the search input subscription`);
+      },
     });
   }
 
-  ngOnInit(): void {
-    this.getAllEvents();
-  }
+  ngOnInit(): void {}
 
   getAllEvents(): void {
     this.eventService.getAllEvents().subscribe({
       next: (res: Array<EventGroup>) => {
-        this.events = res;
-        console.log('this is all the events: ', this.events);
+        this.allEvents = res;
+        if (!this.events) this.events = this.allEvents;
+        console.log('this is all the events: ', this.allEvents);
       },
       error: (err) => {
         this.errorMessage = err;
@@ -50,5 +62,17 @@ export class SearchComponent implements OnInit {
         console.log(`showAllEvents() call completed`);
       },
     });
+  }
+
+  searchEventByName(eventName: string): void {
+    if (eventName) {
+      this.events = this.allEvents.filter((event) => {
+        return event.EventName.toLocaleLowerCase().includes(
+          eventName.toLocaleLowerCase()
+        );
+      });
+    } else {
+      this.events = this.allEvents;
+    }
   }
 }

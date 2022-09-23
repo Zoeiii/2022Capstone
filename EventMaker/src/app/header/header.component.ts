@@ -16,8 +16,11 @@ export class HeaderComponent implements OnInit {
   allCities!: any;
   items!: MenuItem[];
 
-  constructor(private router: Router, private cityService: CityService, private searchService:SearchService) {
-  }
+  constructor(
+    private router: Router,
+    private cityService: CityService,
+    private searchService: SearchService
+  ) {}
 
   ngOnInit(): void {
     this.initHeader();
@@ -54,7 +57,6 @@ export class HeaderComponent implements OnInit {
   submitByEnter(event: KeyboardEvent): void {
     if (event.key === 'Enter') {
       this.router.navigate(['search']);
-      console.log(this.searchInput);
       this.searchService.searchInput$.next(this.searchInput);
     }
   }

@@ -10,7 +10,7 @@
     [rowsPerPageOptions]="[10, 25, 50]"
   >
     <ng-template pTemplate="caption">
-      <p *ngIf="searchInput">Events having event type: {{ searchInput }}</p>
+      <p *ngIf="searchInput">Event name that contains: {{ searchInput }}</p>
       <p *ngIf="!searchInput">All the Events accross four cities in New York</p>
     </ng-template>
     <ng-template pTemplate="header">
