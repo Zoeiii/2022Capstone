@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { City } from '../models/city';
 import { baseUrl } from './constant';
 
@@ -9,6 +9,7 @@ import { baseUrl } from './constant';
 })
 export class CityService {
   private citiesUrl = `${baseUrl}organizations`;
+  currentCity$!:Subject<City>;
 
   constructor(private http: HttpClient) {}
 

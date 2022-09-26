@@ -1,0 +1,59 @@
+<p-panel [header]="formHeader">
+  <form
+    [formGroup]="regForm"
+    class="box"
+    id="registerForm"
+    (ngSubmit)="onSubmit(regForm.value)"
+  >
+    <section class="p-fluid grid formgrid">
+      <div class="field col-6 md-2">
+        <label [for]="name">{{ name }}</label>
+        <input
+          type="text"
+          pInputText
+          [id]="name"
+          [placeholder]="name"
+          [formControlName]="name"
+        />
+      </div>
+      <div class="field col-6 md-2">
+        <label [for]="dropDown">{{ dropDown }}</label>
+        <p-dropdown
+          [options]="cities"
+          optionLabel="CityName"
+          [formControlName]="dropDown"
+        ></p-dropdown>
+      </div>
+      <div class="field col-6 md-2">
+        <label for="time">Start Time</label>
+        <div class="p-inputgroup">
+          <span class="p-inputgroup-addon"><i class="pi pi-calendar"></i></span>
+          <p-calendar
+            [formControlName]="calendar1"
+            [showTime]="true"
+            inputId="time"
+          ></p-calendar>
+        </div>
+      </div>
+      <div class="field col-6 md-2">
+        <label for="time">End Time</label>
+        <div class="p-inputgroup">
+          <span class="p-inputgroup-addon"><i class="pi pi-calendar"></i></span>
+          <p-calendar
+            [formControlName]="calendar2"
+            [showTime]="true"
+            hourFormat="24"
+          ></p-calendar>
+        </div>
+      </div>
+    </section>
+  </form>
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      type="submit"
+      [label]="submitButton"
+      (click)="onSubmit(regForm.value)"
+    ></button>
+  </ng-template>
+</p-panel>

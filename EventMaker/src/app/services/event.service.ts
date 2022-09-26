@@ -22,14 +22,14 @@ export class EventService {
   }
 
   getEventById(eventId: number): Observable<EventGroup> {
-    const results: Observable<EventGroup> = this.http.get<EventGroup>(`/${eventId}`);
+    const results: Observable<EventGroup> = this.http.get<EventGroup>(`${this.eventsUrl}/${eventId}`);
     console.log(`getEventById(${eventId})returned ${results} `);
     return results;
   }
 
-  getEventsByCityCode(cityCode: string): Observable<EventGroup> {
-    const results: Observable<EventGroup> = this.http.get<EventGroup>(
-      `/byorganization/${cityCode}`
+  getEventsByCityCode(cityCode: string): Observable<Array<EventGroup>> {
+    const results: Observable<Array<EventGroup>> = this.http.get<Array<EventGroup>>(
+      `${this.eventsUrl}/byorganization/${cityCode}`
     );
     console.log(`getEventsByCityId(${cityCode})returned ${results} `);
     return results;
@@ -57,7 +57,7 @@ export class EventService {
 
   deleteEventById(eventId: number): Observable<EventGroup> {
     const results: Observable<EventGroup> = this.http.delete<EventGroup>(
-      `/${eventId}`,
+      `${this.eventsUrl}/${eventId}`,
       this.jsonContentTypeHeaders
     );
     console.log(`deleteEventById(${eventId}) returned ${results}`);

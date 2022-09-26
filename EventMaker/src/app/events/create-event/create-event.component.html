@@ -1,0 +1,111 @@
+<p-panel header="Create New Event">
+  <form
+    [formGroup]="regForm"
+    class="box"
+    id="registerForm"
+    (ngSubmit)="onSubmit(regForm.value)"
+  >
+    <section class="p-fluid grid formgrid">
+      <div class="field col-6 md-2">
+        <label for="eventName">Event Name</label>
+        <div class="p-inputgroup">
+          <span class="p-inputgroup-addon"><i class="pi pi-ticket"></i></span>
+          <input
+            type="text"
+            pInputText
+            id="eventName"
+            formControlName="eventName"
+            placeholder="Enter an event name"
+          />
+        </div>
+      </div>
+      <div class="field col-6 md-2">
+        <label for="cityName">City Name</label>
+        <div class="p-inputgroup">
+          <span class="p-inputgroup-addon"><i class="pi pi-map"></i></span>
+          <p-dropdown
+            [options]="cities"
+            id="cityName"
+            formControlName="cityName"
+            optionLabel="CityName"
+          ></p-dropdown>
+        </div>
+      </div>
+      <div class="field col-6 md-2">
+        <label for="location">Event Location</label>
+        <div class="p-inputgroup">
+          <span class="p-inputgroup-addon"
+            ><i class="pi pi-map-marker"></i
+          ></span>
+          <input
+            type="text"
+            pInputText
+            id="location"
+            formControlName="location"
+            placeholder="Enter the location for this event"
+          />
+        </div>
+      </div>
+      <div class="field col-6 md-2">
+        <label for="maxAttendeeSize"> Max Attendee Size</label>
+        <div class="p-inputgroup">
+          <span class="p-inputgroup-addon"><i class="pi pi-users"></i></span>
+          <p-inputNumber
+            mode="decimal"
+            [showButtons]="true"
+            [allowEmpty]="false"
+            inputId="maxAttendeeSize"
+            formControlName="maxAttendeeSize"
+          >
+          </p-inputNumber>
+        </div>
+      </div>
+      <div class="field col-6 md-2">
+        <label for="time">Start Time</label>
+        <div class="p-inputgroup">
+          <span class="p-inputgroup-addon"><i class="pi pi-calendar"></i></span>
+          <p-calendar
+            formControlName="startTime"
+            id="startTime"
+            [showTime]="true"
+            hourFormat="24"
+            [minDate]="minDate"
+          ></p-calendar>
+        </div>
+      </div>
+      <div class="field col-6 md-2">
+        <label for="time">End Time</label>
+        <div class="p-inputgroup">
+          <span class="p-inputgroup-addon"><i class="pi pi-calendar"></i></span>
+          <p-calendar
+            id="endTime"
+            formControlName="endTime"
+            [showTime]="true"
+            hourFormat="24"
+            [minDate]="minDate"
+          >
+          </p-calendar>
+        </div>
+      </div>
+      <div class="field col-12 md-6">
+        <label for="description">Event Description</label>
+        <textarea
+          type="text"
+          rows="4"
+          pInputTextarea
+          id="description"
+          formControlName="description"
+          placeholder="Enter an event description"
+        ></textarea>
+      </div>
+    </section>
+  </form>
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      type="submit"
+      label="Create"
+      (click)="onSubmit(regForm.value)"
+    ></button>
+  </ng-template>
+</p-panel>

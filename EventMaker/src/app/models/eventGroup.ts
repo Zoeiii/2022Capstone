@@ -6,7 +6,7 @@ export interface EventGroup {
   EventPic: string;
   CityName: string;
   EventOrganizer: string;
-  EventDetail: string;
+  EventDescription: string;
   EventOverView: string;
   CurrentAttendeeSize: number;
   MaxAttendeeSize: number;

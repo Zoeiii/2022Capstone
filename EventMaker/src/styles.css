@@ -14,3 +14,17 @@ body {
 .pointerCursor {
     cursor:pointer;
 }
+
+.createButton {
+    float: right;
+}
+
+.p-panel-footer {
+    text-align: right;
+}
+
+.p-inputgroup p-dropdown {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
