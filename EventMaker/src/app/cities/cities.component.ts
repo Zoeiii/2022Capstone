@@ -35,20 +35,7 @@ export class CitiesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.cityService.getAllCities().subscribe({
-      next: (res: any) => {
-        this.allCities = res;
-        console.log('All the cicies: ', this.allCities);
-      },
-      error: () => {
-        this.errorMessage = `Error fetching all the cities`;
-        console.error(this.errorMessage);
-      },
-      complete: () => {
-        console.log(`Complete fetching all the cities.`);
-      },
-    });
-    this.getEvents();
+    this.getAllCities();
   }
 
   getEvents(): void {
@@ -66,13 +53,30 @@ export class CitiesComponent implements OnInit {
     });
   }
 
+  getAllCities() {
+    this.cityService.getAllCities().subscribe({
+      next: (res: any) => {
+        this.allCities = res;
+        console.log('getAllCities(): ', this.allCities);
+      },
+      error: () => {
+        this.errorMessage = `Error fetching all the cities`;
+        console.error(this.errorMessage);
+      },
+      complete: () => {
+        console.log(`Complete fetching all the cities.`);
+      },
+    });
+    this.getEvents();
+  }
+
   route(): void {
     this.router.navigate(['group']);
   }
 
   //TODO: refresh the search result
   refresh() {
-    location.reload();
+    this.getAllCities();
   }
 
   getCityByCityCode(): City | undefined {
@@ -83,24 +87,24 @@ export class CitiesComponent implements OnInit {
 
   createNewEvent() {
     this.router.navigate(['createNewEvent']);
-    console.log(this.getCityByCityCode())
+    console.log(this.getCityByCityCode());
   }
 
   deleteEvent(eventId: number) {
     this.eventService.deleteEventById(eventId).subscribe({
       next: (res: any) => {
         this.events = res;
-        console.log('deleteEvent: ', this.events);
-        //this.refresh();
       },
       error: (err) => {
         this.errorMessage = err;
       },
       complete: () => {
-        console.log(`deleteEvent() call completed`);
+        this.getAllCities();
       },
-    })
+    });
   }
 
-
+  updateEvent(event: EventGroup) {
+    console.log('update event', event);
+  }
 }

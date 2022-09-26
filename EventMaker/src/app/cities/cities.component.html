@@ -35,8 +35,8 @@
     </ng-template>
     <ng-template pTemplate="body" let-events>
       <!-- <tr (click)="route()" class="pointerCursor"> -->
-      <tr class="pointerCursor">
-        <td>{{ events.EventName }}</td>
+      <tr>
+        <td (click)="route()" class="pointerCursor">{{ events.EventName }}</td>
         <td>{{ events.EventOverView }}</td>
         <td>{{ events.EventOrganizer }}</td>
         <td>{{ events.CityName }}</td>
@@ -49,8 +49,17 @@
         <td style="text-align: center">
           <button
             pButton
+            pRipple
             type="button"
-            class="p-button-secondary"
+            class="p-button-rounded p-button-success p-button-outlined"
+            icon="pi pi-pencil"
+            (click)="updateEvent(events.EventId)"
+          ></button>
+          <button
+            pButton
+            pRipple
+            type="button"
+            class="p-button-rounded p-button-danger p-button-outlined"
             icon="pi pi-trash"
             (click)="deleteEvent(events.EventId)"
           ></button>
