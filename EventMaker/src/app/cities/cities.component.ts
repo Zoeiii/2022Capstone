@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { Router } from '@angular/router';
+import { Event, Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { City } from '../models/city';
 import { EventGroup } from '../models/eventGroup';
@@ -72,7 +72,7 @@ export class CitiesComponent implements OnInit {
 
   //TODO: refresh the search result
   refresh() {
-    this.router.navigate(['cities']);
+    location.reload();
   }
 
   getCityByCityCode(): City | undefined {
@@ -85,4 +85,22 @@ export class CitiesComponent implements OnInit {
     this.router.navigate(['createNewEvent']);
     console.log(this.getCityByCityCode())
   }
+
+  deleteEvent(eventId: number) {
+    this.eventService.deleteEventById(eventId).subscribe({
+      next: (res: any) => {
+        this.events = res;
+        console.log('deleteEvent: ', this.events);
+        //this.refresh();
+      },
+      error: (err) => {
+        this.errorMessage = err;
+      },
+      complete: () => {
+        console.log(`deleteEvent() call completed`);
+      },
+    })
+  }
+
+
 }

@@ -30,10 +30,12 @@
         <th pSortableColumn="MaxAttendeeSize">
           Max Attendee<p-sortIcon field="MaxAttendeeSize"></p-sortIcon>
         </th>
+        <th style="width: 8rem"></th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-events>
-      <tr (click)="route()" class="pointerCursor">
+      <!-- <tr (click)="route()" class="pointerCursor"> -->
+      <tr class="pointerCursor">
         <td>{{ events.EventName }}</td>
         <td>{{ events.EventOverView }}</td>
         <td>{{ events.EventOrganizer }}</td>
@@ -44,13 +46,27 @@
           </span>
         </td>
         <td>{{ events.MaxAttendeeSize }}</td>
+        <td style="text-align: center">
+          <button
+            pButton
+            type="button"
+            class="p-button-secondary"
+            icon="pi pi-trash"
+            (click)="deleteEvent(events.EventId)"
+          ></button>
+        </td>
       </tr>
     </ng-template>
     <ng-template pTemplate="paginatorleft">
-        <p-button type="button" icon="pi pi-refresh" (click)="refresh()" styleClass="p-button-text"></p-button>
+      <p-button
+        type="button"
+        icon="pi pi-refresh"
+        (click)="refresh()"
+        styleClass="p-button-text"
+      ></p-button>
     </ng-template>
     <ng-template pTemplate="paginatorright">
-        <p-button label="Create New Event" (click)="createNewEvent()"></p-button>
+      <p-button label="Create New Event" (click)="createNewEvent()"></p-button>
     </ng-template>
   </p-table>
 </section>

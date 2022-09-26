@@ -344,7 +344,7 @@ app.delete("/api/groups/:id", function (req, res) {
   data = JSON.parse(data);
 
   // find the index number of the group in the array
-  let foundAt = data.findIndex((element) => element.eventId == id);
+  let foundAt = data.findIndex((element) => element.EventId == id);
 
   // delete the group if found
   if (foundAt != -1) {
