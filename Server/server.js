@@ -74,19 +74,17 @@ function getNextId(counterType) {
 // ------ Validation helpers ------------------
 
 function isValidGroup(group) {
-  if (group.GroupName == undefined || group.GroupName.trim() == "") return 1;
+  console.log(group);
+  if (group.EventName == undefined || group.EventName.trim() == "") return 1;
+  if (group.CityName == undefined || group.CityName.trim() == "") return 2;
   if (
-    group.OrganizationName == undefined ||
-    group.OrganizationName.trim() == ""
+    group.EventDescription == undefined ||
+    group.EventDescription.trim() == ""
   )
-    return 2;
-  if (group.SponsorName == undefined || group.SponsorName.trim() == "")
-    return 3;
-  if (group.SponsorPhone == undefined || group.SponsorPhone.trim() == "")
     return 4;
-  if (group.SponsorEmail == undefined || group.SponsorEmail.trim() == "")
-    return 5;
-  if (group.MaxGroupSize == undefined || isNaN(group.MaxGroupSize)) return 6;
+  if (group.Location == undefined || group.Location.trim() == "") return 5;
+  if (group.MaxAttendeeSize == undefined || isNaN(group.MaxAttendeeSize))
+    return 6;
 
   return -1;
 }
@@ -174,9 +172,10 @@ app.get("/api/groups/byorganization/:id", function (req, res) {
   let orgData = fs.readFileSync(__dirname + "/data/organizations.json", "utf8");
   orgData = JSON.parse(orgData);
 
-  let organization = orgData.find(
-    (element) => element.cityCode.toLowerCase() == id.toLowerCase()
-  );
+  let organization = orgData.find((element) => {
+    console.log("element.CityCode.toLowerCase() == id.toLowerCase()", element.CityCode.toLowerCase(), id.toLowerCase(), element.CityCode.toLowerCase() == id.toLowerCase())
+    return element.CityCode.toLowerCase() == id.toLowerCase();
+  });
   if (organization == null) {
     res.status(404).send("Organization Not Found");
     console.log("Organization not found");
@@ -188,7 +187,7 @@ app.get("/api/groups/byorganization/:id", function (req, res) {
 
   // find the matching groups for a specific organization
   let matches = data.filter(
-    (element) => element.cityName == organization.cityName
+    (element) => element.CityName == organization.CityName
   );
 
   console.log("Returned data is: ");
@@ -235,13 +234,17 @@ app.post("/api/groups", urlencodedParser, function (req, res) {
 
   // assemble group information so we can validate it
   let group = {
-    GroupId: getNextId("group"), // assign id to group
-    GroupName: req.body.GroupName,
-    OrganizationName: req.body.OrganizationName,
-    SponsorName: req.body.SponsorName,
-    SponsorPhone: req.body.SponsorPhone,
-    SponsorEmail: req.body.SponsorEmail,
-    MaxGroupSize: Number(req.body.MaxGroupSize),
+    EventId: getNextId("group"), // assign id to group
+    EventName: req.body.eventName,
+    CityName: req.body.cityName.CityName,
+    EventOrganizer:req.body.eventOrganizer,
+    EventOrganizerEmail: req.body.eventOrganizerEmail,
+    EventDescription: req.body.description,
+    CurrentAttendeeSize: 0,
+    MaxAttendeeSize: Number(req.body.maxAttendeeSize),
+    Location: req.body.location,
+    StartTime: req.body.startTime,
+    EndTime: req.body.endTime,
     Members: [],
   };
 
@@ -275,13 +278,18 @@ app.put("/api/groups", urlencodedParser, function (req, res) {
 
   // assemble group information so we can validate it
   let group = {
-    GroupId: req.body.GroupId, //req.params.id if you use id in URL instead of req.body.GroupId
-    GroupName: req.body.GroupName,
-    OrganizationName: req.body.OrganizationName,
-    SponsorName: req.body.SponsorName,
-    SponsorPhone: req.body.SponsorPhone,
-    SponsorEmail: req.body.SponsorEmail,
-    MaxGroupSize: Number(req.body.MaxGroupSize),
+    EventId: req.body.eventId, //req.params.id if you use id in URL instead of req.body.GroupId
+    EventName: req.body.eventName,
+    CityName: req.body.cityName.CityName,
+    EventOrganizer:req.body.eventOrganizer,
+    EventOrganizerEmail: req.body.eventOrganizerEmail,
+    EventDescription: req.body.description,
+    CurrentAttendeeSize: 0,
+    MaxAttendeeSize: Number(req.body.maxAttendeeSize),
+    Location: req.body.location,
+    StartTime: req.body.startTime,
+    EndTime: req.body.endTime,
+    Members: [],
   };
 
   console.log("Performing validation...");

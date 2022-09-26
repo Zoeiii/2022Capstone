@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Attendee } from 'src/app/models/attendee';
 import { City } from 'src/app/models/city';
+import { EventGroup } from 'src/app/models/eventGroup';
 import { CityService } from 'src/app/services/city.service';
+import { EventService } from 'src/app/services/event.service';
 
 @Component({
   selector: 'app-create-event',
@@ -17,7 +20,11 @@ export class CreateEventComponent implements OnInit {
   errorMessage!: string;
   readonly minDate = new Date();
 
-  constructor(private router: Router, private cityService: CityService) {
+  constructor(
+    private router: Router,
+    private eventService: EventService,
+    private cityService: CityService
+  ) {
     this.cityService.getAllCities().subscribe({
       next: (res: any) => {
         this.cities = res;
@@ -37,6 +44,8 @@ export class CreateEventComponent implements OnInit {
     this.regForm = new FormGroup({
       eventName: new FormControl(null, [Validators.required]),
       cityName: new FormControl(null, [Validators.required]),
+      eventOrganizer: new FormControl(null, [Validators.required]),
+      eventOrganizerEmail: new FormControl(null, [Validators.required]),
       location: new FormControl(null, [Validators.required]),
       maxAttendeeSize: new FormControl(5, [Validators.required]),
       startTime: new FormControl(this.minDate, [Validators.required]),
@@ -48,6 +57,12 @@ export class CreateEventComponent implements OnInit {
   onSubmit(formValues: any): void {
     this.submit = true;
     console.log(formValues);
-    console.log(this.regForm.valid)
+    console.log(this.regForm.valid);
+    this.eventService.addEvent(formValues).subscribe({
+      next: (res: any) => {
+        console.log('heyyyyy', res);
+        this.router.navigate(['cities']);
+      },
+    });
   }
 }

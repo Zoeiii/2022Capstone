@@ -1,17 +1,17 @@
-import { Attendee } from "./attendee";
+import { Attendee } from './attendee';
 
 export interface EventGroup {
   EventId: number;
   EventName: string;
-  EventPic: string;
+  // EventPic: string;
   CityName: string;
   EventOrganizer: string;
+  EventOrganizerEmail: string;
   EventDescription: string;
-  EventOverView: string;
   CurrentAttendeeSize: number;
   MaxAttendeeSize: number;
   Location: string;
   StartTime: Date;
   EndTime: Date;
-  Attendee: Array<Attendee>;
+  Members: Array<Attendee>;
 }

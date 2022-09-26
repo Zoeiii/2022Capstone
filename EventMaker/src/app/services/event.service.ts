@@ -36,12 +36,13 @@ export class EventService {
   }
 
   addEvent(event: EventGroup): Observable<EventGroup> {
+    console.log("adding new event:", event);
     const results: Observable<EventGroup> = this.http.post<EventGroup>(
       this.eventsUrl,
       event,
       this.jsonContentTypeHeaders
     );
-    console.log(`addEvent(${event}) returned ${results}`);
+    console.log(`addEvent(${event}) returned`, results);
     return results;
   }
 

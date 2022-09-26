@@ -84,6 +84,5 @@ export class CitiesComponent implements OnInit {
   createNewEvent() {
     this.router.navigate(['createNewEvent']);
     console.log(this.getCityByCityCode())
-    this.cityService.currentCity$.next(this.getCityByCityCode());
   }
 }

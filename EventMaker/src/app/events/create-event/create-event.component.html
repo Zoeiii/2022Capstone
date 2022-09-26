@@ -32,6 +32,32 @@
         </div>
       </div>
       <div class="field col-6 md-2">
+        <label for="eventOrganizer">Event Organizer</label>
+        <div class="p-inputgroup">
+          <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+          <input
+            type="text"
+            pInputText
+            id="eventOrganizer"
+            formControlName="eventOrganizer"
+            placeholder="Enter the name for this event organizer"
+          />
+        </div>
+      </div>
+      <div class="field col-6 md-2">
+        <label for="eventOrganizerEmail">Event Organizer Email</label>
+        <div class="p-inputgroup">
+          <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+          <input
+            type="text"
+            pInputText
+            id="eventOrganizerEmail"
+            formControlName="eventOrganizerEmail"
+            placeholder="Enter the email for this event organizer"
+          />
+        </div>
+      </div>
+      <div class="field col-6 md-2">
         <label for="location">Event Location</label>
         <div class="p-inputgroup">
           <span class="p-inputgroup-addon"
@@ -53,7 +79,6 @@
           <p-inputNumber
             mode="decimal"
             [showButtons]="true"
-            [allowEmpty]="false"
             inputId="maxAttendeeSize"
             formControlName="maxAttendeeSize"
           >
