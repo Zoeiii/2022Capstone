@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { Event, Router } from '@angular/router';
+import { Router } from '@angular/router';
+
 import { MenuItem } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
+
 import { City } from '../models/city';
 import { EventGroup } from '../models/eventGroup';
 import { CityService } from '../services/city.service';
@@ -11,6 +14,7 @@ import { EventService } from '../services/event.service';
   selector: 'app-cities',
   templateUrl: './cities.component.html',
   styleUrls: ['./cities.component.css'],
+  providers: [ConfirmationService, MessageService]
 })
 export class CitiesComponent implements OnInit {
   //TODO: make it dynamic later on
@@ -29,9 +33,11 @@ export class CitiesComponent implements OnInit {
     private router: Router,
     private title: Title,
     private cityService: CityService,
-    private eventService: EventService
+    private eventService: EventService,
+    private confirmationService: ConfirmationService,
+    private messageService: MessageService
   ) {
-    this.title.setTitle('Events in City');
+    this.title.setTitle('List of Events');
   }
 
   ngOnInit(): void {
@@ -90,7 +96,7 @@ export class CitiesComponent implements OnInit {
     console.log(this.getCityByCityCode());
   }
 
-  deleteEvent(eventId: number) {
+  deleteEventById(eventId: number) {
     this.eventService.deleteEventById(eventId).subscribe({
       next: (res: any) => {
         this.events = res;
@@ -100,6 +106,19 @@ export class CitiesComponent implements OnInit {
       },
       complete: () => {
         this.getAllCities();
+      },
+    });
+  }
+
+  confirmDelete(eventId: number) {
+    this.confirmationService.confirm({
+      message: 'Are you sure that you want to delete this event?',
+      accept: () => {
+        this.deleteEventById(eventId);
+        this.messageService.add({severity:'info', summary:'Confirmed', detail:'Event deleted.'});
+      },
+      reject: () => {
+        this.messageService.add({severity:'warn', summary:'Cancelled', detail:'You have cancelled delete.'});
       },
     });
   }

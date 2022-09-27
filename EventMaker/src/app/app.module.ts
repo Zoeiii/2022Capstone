@@ -27,7 +27,8 @@ import { DropdownModule } from 'primeng/dropdown';
 import {CalendarModule} from 'primeng/calendar';
 import {InputTextareaModule} from 'primeng/inputtextarea';
 import {InputNumberModule} from 'primeng/inputnumber';
-
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import {ToastModule} from 'primeng/toast';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,9 @@ import {InputNumberModule} from 'primeng/inputnumber';
     DropdownModule,
     CalendarModule,
     InputTextareaModule,
-    InputNumberModule
+    InputNumberModule,
+    ConfirmDialogModule,
+    ToastModule
   ],
   providers: [],
   bootstrap: [AppComponent],

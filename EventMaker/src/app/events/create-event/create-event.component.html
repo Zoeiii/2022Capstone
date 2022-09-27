@@ -5,8 +5,8 @@
     id="registerForm"
     (ngSubmit)="onSubmit(regForm.value)"
   >
-    <section class="p-fluid grid formgrid">
-      <div class="field col-6 md-2">
+    <section class="p-fluid grid formgrid col-12">
+      <div class="field col-4 md-2">
         <label for="eventName">Event Name</label>
         <div class="p-inputgroup">
           <span class="p-inputgroup-addon"><i class="pi pi-ticket"></i></span>
@@ -19,19 +19,7 @@
           />
         </div>
       </div>
-      <div class="field col-6 md-2">
-        <label for="cityName">City Name</label>
-        <div class="p-inputgroup">
-          <span class="p-inputgroup-addon"><i class="pi pi-map"></i></span>
-          <p-dropdown
-            [options]="cities"
-            id="cityName"
-            formControlName="cityName"
-            optionLabel="CityName"
-          ></p-dropdown>
-        </div>
-      </div>
-      <div class="field col-6 md-2">
+      <div class="field col-4 md-2">
         <label for="eventOrganizer">Event Organizer</label>
         <div class="p-inputgroup">
           <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
@@ -44,7 +32,7 @@
           />
         </div>
       </div>
-      <div class="field col-6 md-2">
+      <div class="field col-4 md-2">
         <label for="eventOrganizerEmail">Event Organizer Email</label>
         <div class="p-inputgroup">
           <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
@@ -57,7 +45,19 @@
           />
         </div>
       </div>
-      <div class="field col-6 md-2">
+      <div class="field col-4 md-2">
+        <label for="cityName">City Name</label>
+        <div class="p-inputgroup">
+          <span class="p-inputgroup-addon"><i class="pi pi-map"></i></span>
+          <p-dropdown
+            [options]="cities"
+            id="cityName"
+            formControlName="cityName"
+            optionLabel="CityName"
+          ></p-dropdown>
+        </div>
+      </div>
+      <div class="field col-4 md-2">
         <label for="location">Event Location</label>
         <div class="p-inputgroup">
           <span class="p-inputgroup-addon"
@@ -72,7 +72,7 @@
           />
         </div>
       </div>
-      <div class="field col-6 md-2">
+      <div class="field col-4 md-2">
         <label for="maxAttendeeSize"> Max Attendee Size</label>
         <div class="p-inputgroup">
           <span class="p-inputgroup-addon"><i class="pi pi-users"></i></span>
@@ -85,7 +85,7 @@
           </p-inputNumber>
         </div>
       </div>
-      <div class="field col-6 md-2">
+      <div class="field col-4 md-2">
         <label for="time">Start Time</label>
         <div class="p-inputgroup">
           <span class="p-inputgroup-addon"><i class="pi pi-calendar"></i></span>
@@ -98,7 +98,7 @@
           ></p-calendar>
         </div>
       </div>
-      <div class="field col-6 md-2">
+      <div class="field col-4 md-2">
         <label for="time">End Time</label>
         <div class="p-inputgroup">
           <span class="p-inputgroup-addon"><i class="pi pi-calendar"></i></span>
@@ -112,7 +112,7 @@
           </p-calendar>
         </div>
       </div>
-      <div class="field col-12 md-6">
+      <div class="field col-12 md-6 ">
         <label for="description">Event Description</label>
         <textarea
           type="text"
@@ -120,8 +120,10 @@
           pInputTextarea
           id="description"
           formControlName="description"
-          placeholder="Enter an event description"
+          placeholder="Tell us what this event is about."
+          class="ng-invalid ng-dirty"
         ></textarea>
+        <small class="p-error">Tell us what this event is about.</small>
       </div>
     </section>
   </form>

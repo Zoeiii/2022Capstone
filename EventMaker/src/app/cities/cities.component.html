@@ -5,23 +5,33 @@
     [paginator]="true"
     [rows]="10"
     [showCurrentPageReport]="true"
-    responsiveLayout="scroll"
     [resizableColumns]="true"
     [rowsPerPageOptions]="[10, 25, 50]"
+    styleClass="p-datatable-sm"
+    responsiveLayout="scroll"
   >
     <ng-template pTemplate="caption">
-      <p>Welcome to event in the city</p>
+      <p>List of Events in {{ cityCode }}</p>
     </ng-template>
     <ng-template pTemplate="header">
       <tr>
         <th pSortableColumn="EventName">
           Event<p-sortIcon field="EventName"></p-sortIcon>
         </th>
-        <th pSortableColumn="EventOverView">
-          Event OverView<p-sortIcon field="EventOverView"></p-sortIcon>
+        <th pSortableColumn="EventDescription">
+          Event Description<p-sortIcon field="EventDescription"></p-sortIcon>
         </th>
         <th pSortableColumn="EventOrganizer">
           Event Organizer<p-sortIcon field="EventOrganizer"></p-sortIcon>
+        </th>
+        <th pSortableColumn="StartTime">
+          Event StartTime<p-sortIcon field="StartTime"></p-sortIcon>
+        </th>
+        <th pSortableColumn="EndTime">
+          Event EndTime<p-sortIcon field="EndTime"></p-sortIcon>
+        </th>
+        <th pSortableColumn="Location">
+          Event Location<p-sortIcon field="Location"></p-sortIcon>
         </th>
         <th pSortableColumn="CityName">
           City<p-sortIcon field="CityName"></p-sortIcon>
@@ -37,8 +47,11 @@
       <!-- <tr (click)="route()" class="pointerCursor"> -->
       <tr>
         <td (click)="route()" class="pointerCursor">{{ events.EventName }}</td>
-        <td>{{ events.EventOverView }}</td>
+        <td>{{ events.EventDescription }}</td>
         <td>{{ events.EventOrganizer }}</td>
+        <td>{{ events.StartTime | date: "short" }}</td>
+        <td>{{ events.EndTime | date: "short" }}</td>
+        <td>{{ events.Location }}</td>
         <td>{{ events.CityName }}</td>
         <td>
           <span *ngFor="let member of events.Members">
@@ -61,7 +74,7 @@
             type="button"
             class="p-button-rounded p-button-danger p-button-outlined"
             icon="pi pi-trash"
-            (click)="deleteEvent(events.EventId)"
+            (click)="confirmDelete(events.EventId)"
           ></button>
         </td>
       </tr>
@@ -78,4 +91,26 @@
       <p-button label="Create New Event" (click)="createNewEvent()"></p-button>
     </ng-template>
   </p-table>
+</section>
+
+<section>
+  <p-confirmDialog #cd header="Confirmation" icon="pi pi-exclamation-triangle">
+    <ng-template pTemplate="footer">
+      <button
+        type="button"
+        pButton
+        icon="pi pi-times"
+        label="No"
+        (click)="cd.reject()"
+      ></button>
+      <button
+        type="button"
+        pButton
+        icon="pi pi-check"
+        label="Yes"
+        (click)="cd.accept()"
+      ></button>
+    </ng-template>
+  </p-confirmDialog>
+  <p-toast></p-toast>
 </section>
