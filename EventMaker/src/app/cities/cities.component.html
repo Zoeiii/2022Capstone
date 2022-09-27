@@ -29,14 +29,15 @@
     styleClass="p-datatable-sm"
     responsiveLayout="scroll"
     editMode="row"
-    dataKey="EventId" 
+    dataKey="EventId"
   >
-  <!-- dataKey="EventId", is the key here to edit by row, and it must be a unique field of your data -->
+    <!-- dataKey="EventId", is the key here to edit by row, and it must be a unique field of your data -->
     <ng-template pTemplate="caption">
       <p>List of Events in {{ currentCity.CityName }}</p>
     </ng-template>
     <ng-template pTemplate="header">
       <tr>
+        <th style="width: 3rem"></th>
         <th pSortableColumn="EventName">
           Event Name<p-sortIcon field="EventName"></p-sortIcon>
         </th>
@@ -66,10 +67,21 @@
       let-events
       let-editing="editing"
       let-ri="rowIndex"
+      let-expanded="expanded"
     >
       <!-- <tr (click)="route()" class="pointerCursor"> -->
       <tr [pEditableRow]="events">
-        <td pEditableColumn>
+        <td>
+          <button
+            type="button"
+            pButton
+            pRipple
+            [pRowToggler]="events"
+            class="p-button-text p-button-rounded p-button-plain"
+            [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
+          ></button>
+        </td>
+        <td>
           <p-cellEditor>
             <ng-template pTemplate="input">
               <input pInputText type="text" [(ngModel)]="events.EventName" />
@@ -79,7 +91,7 @@
             </ng-template>
           </p-cellEditor>
         </td>
-        <td pEditableColumn>
+        <td>
           <p-cellEditor>
             <ng-template pTemplate="input">
               <input
@@ -88,30 +100,76 @@
                 [(ngModel)]="events.EventOrganizer"
               />
             </ng-template>
-            <ng-template pTemplate="output">{{
-              events.EventOrganizer
-            }}</ng-template>
+            <ng-template pTemplate="output">
+              {{ events.EventOrganizer }}
+            </ng-template>
           </p-cellEditor>
         </td>
-        <td pEditableColumn>
+        <td>
           <p-cellEditor>
             <ng-template pTemplate="input">
-              <input pInputText type="text" [(ngModel)]="events.StartTime" />
+              <p-calendar
+                [showTime]="true"
+                hourFormat="24"
+                [minDate]="minDate"
+                [monthNavigator]="true"
+                [yearNavigator]="true"
+                yearRange="2022:2030"
+                [appendTo]="'body'"
+                [placeholder]="events.StartTime"
+              ></p-calendar>
             </ng-template>
             <ng-template pTemplate="output">{{
               events.StartTime | date: "short"
             }}</ng-template></p-cellEditor
           >
         </td>
-        <td pEditableColumn>{{ events.EndTime | date: "short" }}</td>
-        <td pEditableColumn>{{ events.Location }}</td>
-        <td pEditableColumn>{{ events.CityName }}</td>
-        <!-- <td>
-          <span *ngFor="let member of events.Members">
-            {{ member.MemberName }}
-          </span>
-        </td> -->
-        <td>{{ events.MaxAttendeeSize }}</td>
+        <td>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <p-calendar
+                [showTime]="true"
+                hourFormat="24"
+                [minDate]="minDate"
+                [monthNavigator]="true"
+                [yearNavigator]="true"
+                yearRange="2022:2030"
+                [appendTo]="'body'"
+                [placeholder]="events.EndTime"
+              ></p-calendar>
+            </ng-template>
+            <ng-template pTemplate="output">{{
+              events.EndTime | date: "short"
+            }}</ng-template></p-cellEditor
+          >
+        </td>
+        <td>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input pInputText type="text" [(ngModel)]="events.Location" />
+            </ng-template>
+            <ng-template pTemplate="output"> {{ events.Location }}</ng-template>
+          </p-cellEditor>
+        </td>
+        <td>
+          {{ events.CityName }}
+        </td>
+
+        <td>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <p-inputNumber
+                mode="decimal"
+                [showButtons]="true"
+                [(ngModel)]="events.MaxAttendeeSize"
+              >
+              </p-inputNumber>
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{ events.MaxAttendeeSize }}</ng-template
+            >
+          </p-cellEditor>
+        </td>
         <td style="text-align: center">
           <button
             *ngIf="!editing"
@@ -165,6 +223,54 @@
     </ng-template>
     <ng-template pTemplate="paginatorright">
       <p-button label="Create New Event" (click)="createNewEvent()"></p-button>
+    </ng-template>
+
+    <ng-template pTemplate="rowexpansion" let-events>
+      <tr>
+        <td colspan="2"></td>
+        <td colspan="5">
+          <div class="p-p-3">
+            <p-table [value]="events.Members" dataKey="MemberId">
+              <ng-template pTemplate="caption">
+                <p>Add event description here</p>
+              </ng-template>
+              <ng-template pTemplate="header">
+                <tr>
+                  <th pSortableColumn="MemberName">
+                    Memeber Name <p-sortIcon field="MemberName"></p-sortIcon>
+                  </th>
+                  <th pSortableColumn="MemberEmail">
+                    Member Email <p-sortIcon field="MemberEmail"></p-sortIcon>
+                  </th>
+                  <th pSortableColumn="MemberPhone">
+                    Member Phone <p-sortIcon field="MemberPhone"></p-sortIcon>
+                  </th>
+                  <th pSortableColumn="EditAccess">
+                    Edit Access <p-sortIcon field="EditAccess"></p-sortIcon>
+                  </th>
+                  <th style="width: 4rem"></th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-attendee>
+                <tr>
+                  <td>{{ attendee.MemberName }}</td>
+                  <td>{{ attendee.MemberEmail }}</td>
+                  <td>{{ attendee.MemberPhone }}</td>
+                  <td>{{ attendee.hasEditAccess }}</td>
+                  <td>
+                    <p-button type="button" icon="pi pi-search"></p-button>
+                  </td>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="emptymessage">
+                <tr>
+                  <td colspan="6">There are no attendee for this event yet.</td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </td>
+      </tr>
     </ng-template>
   </p-table>
 </section>

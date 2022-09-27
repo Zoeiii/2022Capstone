@@ -21,6 +21,7 @@ export class CitiesComponent implements OnInit {
   events!: Array<EventGroup>;
   errorMessage!: string;
   currentCity!: City;
+  readonly minDate = new Date();
   clonedProducts: { [s: string]: EventGroup } = {};
 
   items: MenuItem[] = [
