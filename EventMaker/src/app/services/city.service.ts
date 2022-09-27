@@ -15,8 +15,12 @@ export class CityService {
 
   getAllCities():Observable<Array<City>>{
     const results: Observable<Array<City>> = this.http.get<Array<City>>(this.citiesUrl);
-    console.log(`getAllCities() returned ${results} `);
     return results;
   };
   
+  getCityByCityCode(cityCode: string):Observable<City>{
+    const results: Observable<City> = this.http.get<City>(`${this.citiesUrl}/${cityCode}`);
+    return results;
+  };
+
 }

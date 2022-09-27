@@ -131,6 +131,27 @@ app.get("/api/organizations", function (req, res) {
   res.end(JSON.stringify(data));
 });
 
+// GET ORGANIZATION
+app.get("/api/organizations/:id", function (req, res) {
+  let id = req.params.id;
+  console.log("Received a GET request to get organization by " + id);
+
+  let data = fs.readFileSync(__dirname + "/data/organizations.json", "utf8");
+  data = JSON.parse(data);
+
+  let match = data.find((element) => element.CityCode == id);
+  if (match == null) {
+    res.status(404).send("City Not Found");
+    console.log("City not found");
+    return;
+  }
+
+  console.log("Returned data is: ");
+  console.log(match);
+  // logArray(match.Members);
+  res.end(JSON.stringify(match));
+});
+
 // GET ALL GROUPS
 app.get("/api/groups", function (req, res) {
   console.log("Received a GET request for all groups");
@@ -236,7 +257,7 @@ app.post("/api/groups", urlencodedParser, function (req, res) {
   let group = {
     EventId: getNextId("group"), // assign id to group
     EventName: req.body.eventName,
-    CityName: req.body.cityName.CityName,
+    CityName: req.body.cityName,
     EventOrganizer:req.body.eventOrganizer,
     EventOrganizerEmail: req.body.eventOrganizerEmail,
     EventDescription: req.body.description,
@@ -278,17 +299,17 @@ app.put("/api/groups", urlencodedParser, function (req, res) {
 
   // assemble group information so we can validate it
   let group = {
-    EventId: req.body.eventId, //req.params.id if you use id in URL instead of req.body.GroupId
-    EventName: req.body.eventName,
-    CityName: req.body.cityName.CityName,
-    EventOrganizer:req.body.eventOrganizer,
-    EventOrganizerEmail: req.body.eventOrganizerEmail,
-    EventDescription: req.body.description,
-    CurrentAttendeeSize: 0,
-    MaxAttendeeSize: Number(req.body.maxAttendeeSize),
-    Location: req.body.location,
-    StartTime: req.body.startTime,
-    EndTime: req.body.endTime,
+    EventId: req.body.EventId, //req.params.id if you use id in URL instead of req.body.GroupId
+    EventName: req.body.EventName,
+    CityName: req.body.CityName,
+    EventOrganizer:req.body.EventOrganizer,
+    EventOrganizerEmail: req.body.EventOrganizerEmail,
+    EventDescription: req.body.EventDescription,
+    CurrentAttendeeSize: req.body.CurrentAttendeeSize,
+    MaxAttendeeSize: Number(req.body.MaxAttendeeSize),
+    Location: req.body.Location,
+    StartTime: req.body.StartTime,
+    EndTime: req.body.EndTime,
     Members: [],
   };
 
@@ -304,7 +325,7 @@ app.put("/api/groups", urlencodedParser, function (req, res) {
   data = JSON.parse(data);
 
   // find the group
-  let match = data.find((element) => element.eventId == group.GroupId);
+  let match = data.find((element) => element.EventId == group.EventId);
   if (match == null) {
     res.status(404).send("Group Not Found");
     console.log("Group not found");
@@ -312,11 +333,16 @@ app.put("/api/groups", urlencodedParser, function (req, res) {
   }
 
   // update the group
-  match.GroupName = group.GroupName;
-  match.OrganizationName = group.OrganizationName;
-  match.SponsorName = group.SponsorName;
-  match.SponsorPhone = group.SponsorPhone;
-  match.SponsorEmail = group.SponsorEmail;
+  match.EventName = group.EventName;
+  match.EventOrganizer = group.EventOrganizer;
+  match.EventOrganizerEmail = group.EventOrganizerEmail;
+  match.EventDescription = group.EventDescription;
+  match.CurrentAttendeeSize = group.CurrentAttendeeSize;
+  match.MaxAttendeeSize = group.MaxAttendeeSize;
+  match.Location = group.Location;
+  match.StartTime = group.StartTime;
+  match.EndTime = group.EndTime;
+  match.Members = group.Members;
 
   // make sure new values for MaxGroupSize doesn't invalidate grooup
   if (Number(group.MaxGroupSize) < match.Members.length) {

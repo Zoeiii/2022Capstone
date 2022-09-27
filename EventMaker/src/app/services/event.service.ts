@@ -47,6 +47,7 @@ export class EventService {
   }
 
   updateEvent(event: EventGroup): Observable<EventGroup> {
+    console.log(event)
     const results: Observable<EventGroup> = this.http.put<EventGroup>(
       this.eventsUrl,
       event,

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { MenuItem } from 'primeng/api';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -14,15 +14,14 @@ import { EventService } from '../services/event.service';
   selector: 'app-cities',
   templateUrl: './cities.component.html',
   styleUrls: ['./cities.component.css'],
-  providers: [ConfirmationService, MessageService]
 })
 export class CitiesComponent implements OnInit {
   //TODO: make it dynamic later on
-  cityCode: string = 'NY';
-  allCities!: Array<City>;
+  cityCode: string = '';
   events!: Array<EventGroup>;
   errorMessage!: string;
   currentCity!: City;
+  clonedProducts: { [s: string]: EventGroup } = {};
 
   items: MenuItem[] = [
     { label: 'Home', url: '/home' },
@@ -31,6 +30,7 @@ export class CitiesComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private activatedRoute: ActivatedRoute,
     private title: Title,
     private cityService: CityService,
     private eventService: EventService,
@@ -38,10 +38,34 @@ export class CitiesComponent implements OnInit {
     private messageService: MessageService
   ) {
     this.title.setTitle('List of Events');
+    //detects route param change
+    router.events.subscribe({
+      next: () => {
+        let routeParam = this.activatedRoute.snapshot.paramMap.get('id');
+        this.cityCode = routeParam ? routeParam : 'NY';
+        this.getEvents();
+        this.getCurrentCity();
+        //console.log("get id or city code", this.activatedRoute.snapshot.paramMap.get('id'));
+      },
+    });
   }
 
-  ngOnInit(): void {
-    this.getAllCities();
+  ngOnInit(): void {}
+
+  getCurrentCity() {
+    this.cityService.getCityByCityCode(this.cityCode).subscribe({
+      next: (res: any) => {
+        this.currentCity = res;
+      },
+      error: () => {
+        this.errorMessage = `Error fetching the city ${this.cityCode}`;
+        console.error(this.errorMessage);
+      },
+      complete: () => {
+        console.log(`Complete fetching all the ${this.cityCode}.`);
+      },
+    });
+    this.getEvents();
   }
 
   getEvents(): void {
@@ -59,53 +83,27 @@ export class CitiesComponent implements OnInit {
     });
   }
 
-  getAllCities() {
-    this.cityService.getAllCities().subscribe({
-      next: (res: any) => {
-        this.allCities = res;
-        console.log('getAllCities(): ', this.allCities);
-      },
-      error: () => {
-        this.errorMessage = `Error fetching all the cities`;
-        console.error(this.errorMessage);
-      },
-      complete: () => {
-        console.log(`Complete fetching all the cities.`);
-      },
-    });
-    this.getEvents();
-  }
-
   route(): void {
     this.router.navigate(['group']);
   }
 
   //TODO: refresh the search result
   refresh() {
-    this.getAllCities();
-  }
-
-  getCityByCityCode(): City | undefined {
-    return this.allCities.find((cities: City) => {
-      return cities.CityCode == this.cityCode;
-    });
+    this.getEvents();
   }
 
   createNewEvent() {
-    this.router.navigate(['createNewEvent']);
-    console.log(this.getCityByCityCode());
+    this.router.navigate([`createNewEvent/${this.cityCode}`]);
   }
 
   deleteEventById(eventId: number) {
     this.eventService.deleteEventById(eventId).subscribe({
-      next: (res: any) => {
-        this.events = res;
-      },
+      next: (res: any) => {},
       error: (err) => {
         this.errorMessage = err;
       },
       complete: () => {
-        this.getAllCities();
+        this.getEvents();
       },
     });
   }
@@ -115,15 +113,48 @@ export class CitiesComponent implements OnInit {
       message: 'Are you sure that you want to delete this event?',
       accept: () => {
         this.deleteEventById(eventId);
-        this.messageService.add({severity:'info', summary:'Confirmed', detail:'Event deleted.'});
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Confirmed',
+          detail: 'Event deleted.',
+        });
       },
       reject: () => {
-        this.messageService.add({severity:'warn', summary:'Cancelled', detail:'You have cancelled delete.'});
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Cancelled',
+          detail: 'You have cancelled delete.',
+        });
       },
     });
   }
 
-  updateEvent(event: EventGroup) {
-    console.log('update event', event);
+  onRowEditInit(event: EventGroup) {
+    this.clonedProducts[event.EventId] = { ...event };
+  }
+
+  onRowEditSave(event: EventGroup) {
+    this.eventService.updateEvent(event).subscribe({
+      next: () => {
+        delete this.clonedProducts[event.EventId];
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Product is updated',
+        });
+      },
+      error: (err) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: err.message,
+        });
+      },
+      complete: () => {},
+    });
+  }
+
+  onRowEditCancel(event: EventGroup, index: number) {
+    console.log('cancel edit row');
   }
 }
