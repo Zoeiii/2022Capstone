@@ -1,9 +1,7 @@
-import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 
-import { MenuItem } from 'primeng/api';
 import { ConfirmationService, MessageService } from 'primeng/api';
 
 import { City } from '../models/city';
@@ -25,11 +23,6 @@ export class CitiesComponent implements OnInit {
   readonly minDate = new Date();
   clonedEvent: { [s: string]: EventGroup } = {};
 
-  items: MenuItem[] = [
-    { label: 'Home', url: '/home' },
-    { label: this.cityCode, url: '/cities' },
-  ];
-
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -42,12 +35,13 @@ export class CitiesComponent implements OnInit {
     this.title.setTitle('List of Events');
     //detects route param change
     router.events.subscribe({
-      next: () => {
-        let routeParam = this.activatedRoute.snapshot.paramMap.get('id');
-        this.cityCode = routeParam ? routeParam : 'NY';
-        this.getEvents();
-        this.getCurrentCity();
-        //console.log("get id or city code", this.activatedRoute.snapshot.paramMap.get('id'));
+      next: (event) => {
+        if(event instanceof NavigationEnd){
+          let routeParam = this.activatedRoute.snapshot.paramMap.get('id');
+          this.cityCode = routeParam ? routeParam : 'NY';
+          this.getEventsByCityCode();
+          this.getCurrentCity();
+        }
       },
     });
   }
@@ -67,13 +61,17 @@ export class CitiesComponent implements OnInit {
         console.log(`Complete fetching all the ${this.cityCode}.`);
       },
     });
-    this.getEvents();
+    this.getEventsByCityCode();
   }
 
-  getEvents(): void {
+  getEventsByCityCode(): void {
     this.eventService.getEventsByCityCode(this.cityCode).subscribe({
       next: (res: Array<EventGroup>) => {
         this.events = res;
+        this.events.map((event:EventGroup)=>{
+          event.StartTime = new Date(event.StartTime)
+          event.EndTime = new Date(event.EndTime)
+        })
         console.log('this is all the events: ', this.events);
       },
       error: (err) => {
@@ -91,7 +89,7 @@ export class CitiesComponent implements OnInit {
 
   //TODO: refresh the search result
   refresh() {
-    this.getEvents();
+    this.getEventsByCityCode();
   }
 
   createNewEvent() {
@@ -109,7 +107,7 @@ export class CitiesComponent implements OnInit {
         });
       },
       complete: () => {
-        this.getEvents();
+        this.getEventsByCityCode();
       },
     });
   }
@@ -140,7 +138,7 @@ export class CitiesComponent implements OnInit {
   }
 
   onRowEditSave(event: EventGroup) {
-    console.log(event)
+    console.log(event);
     this.eventService.updateEvent(event).subscribe({
       next: () => {
         delete this.clonedEvent[event.EventId];
@@ -162,6 +160,7 @@ export class CitiesComponent implements OnInit {
   }
 
   onRowEditCancel(event: EventGroup, index: number) {
-    console.log('cancel edit row');
+    this.events[index] = this.clonedEvent[event.EventId];
+    delete this.clonedEvent[event.EventId];
   }
 }

@@ -310,7 +310,7 @@ app.put("/api/groups", urlencodedParser, function (req, res) {
     Location: req.body.Location,
     StartTime: req.body.StartTime,
     EndTime: req.body.EndTime,
-    Members: [],
+    Members: req.body.Members,
   };
 
   console.log("Performing validation...");
