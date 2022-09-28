@@ -30,6 +30,8 @@ import {InputNumberModule} from 'primeng/inputnumber';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {ToastModule} from 'primeng/toast';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { RegisterAttendeeComponent } from './attendee/register-attendee/register-attendee.component';
+import { AttendeeComponent } from './attendee/attendee.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +45,8 @@ import { ConfirmationService, MessageService } from 'primeng/api';
     MainComponent,
     CreateEventComponent,
     RegisterFormComponent,
+    RegisterAttendeeComponent,
+    AttendeeComponent,
   ],
   imports: [
     BreadcrumbModule,

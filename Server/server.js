@@ -172,7 +172,7 @@ app.get("/api/groups/:id", function (req, res) {
   let data = fs.readFileSync(__dirname + "/data/groups.json", "utf8");
   data = JSON.parse(data);
 
-  let match = data.find((element) => element.eventId == id);
+  let match = data.find((element) => element.EventId == id);
   if (match == null) {
     res.status(404).send("Group Not Found");
     console.log("Group not found");
@@ -228,7 +228,7 @@ app.get("/api/groups/:groupid/members/:memberid", function (req, res) {
   data = JSON.parse(data);
 
   // find the group
-  let matchingGroup = data.find((element) => element.eventId == groupId);
+  let matchingGroup = data.find((element) => element.EventId == groupId);
   if (matchingGroup == null) {
     res.status(404).send("Group Not Found");
     console.log("Group not found");
@@ -410,7 +410,7 @@ app.post("/api/groups/:id/members", urlencodedParser, function (req, res) {
   data = JSON.parse(data);
 
   // find the group
-  let match = data.find((element) => element.eventId == id);
+  let match = data.find((element) => element.EventId == id);
   if (match == null) {
     res.status(404).send("Group Not Found");
     console.log("Group not found");
@@ -462,7 +462,7 @@ app.put("/api/groups/:id/members", urlencodedParser, function (req, res) {
   data = JSON.parse(data);
 
   // find the group
-  let matchingGroup = data.find((element) => element.eventId == id);
+  let matchingGroup = data.find((element) => element.EventId == id);
   if (matchingGroup == null) {
     res.status(404).send("Group Not Found");
     return;
@@ -506,7 +506,7 @@ app.delete(
     let data = fs.readFileSync(__dirname + "/data/groups.json", "utf8");
     data = JSON.parse(data);
 
-    let matchingGroup = data.find((element) => element.eventId == groupId);
+    let matchingGroup = data.find((element) => element.EventId == groupId);
     if (matchingGroup == null) {
       res.status(404).send("Group Not Found");
       console.log("Group not found");

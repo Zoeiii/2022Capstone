@@ -33,7 +33,7 @@
   >
     <!-- dataKey="EventId", is the key here to edit by row, and it must be a unique field of your data -->
     <ng-template pTemplate="caption">
-      <p>List of Events in {{ currentCity.CityName }}</p>
+      <p>List of Events in {{ cityCode }}</p>
     </ng-template>
     <ng-template pTemplate="header">
       <tr>
@@ -62,8 +62,7 @@
         <th>Edit/Delete</th>
       </tr>
     </ng-template>
-    <ng-template
-      pTemplate="body"
+    <ng-template pTemplate="body"
       let-events
       let-editing="editing"
       let-ri="rowIndex"
@@ -213,6 +212,11 @@
         </td>
       </tr>
     </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="6">There are no event for this city yet.</td>
+      </tr>
+    </ng-template>
     <ng-template pTemplate="paginatorleft">
       <p-button
         type="button"
@@ -227,50 +231,15 @@
 
     <ng-template pTemplate="rowexpansion" let-events>
       <tr>
-        <td colspan="2"></td>
+        <td colspan="2" style="visibility: hidden"></td>
         <td colspan="5">
           <div class="p-p-3">
-            <p-table [value]="events.Members" dataKey="MemberId">
-              <ng-template pTemplate="caption">
-                <p>Add event description here</p>
-              </ng-template>
-              <ng-template pTemplate="header">
-                <tr>
-                  <th pSortableColumn="MemberName">
-                    Memeber Name <p-sortIcon field="MemberName"></p-sortIcon>
-                  </th>
-                  <th pSortableColumn="MemberEmail">
-                    Member Email <p-sortIcon field="MemberEmail"></p-sortIcon>
-                  </th>
-                  <th pSortableColumn="MemberPhone">
-                    Member Phone <p-sortIcon field="MemberPhone"></p-sortIcon>
-                  </th>
-                  <th pSortableColumn="EditAccess">
-                    Edit Access <p-sortIcon field="EditAccess"></p-sortIcon>
-                  </th>
-                  <th style="width: 4rem"></th>
-                </tr>
-              </ng-template>
-              <ng-template pTemplate="body" let-attendee>
-                <tr>
-                  <td>{{ attendee.MemberName }}</td>
-                  <td>{{ attendee.MemberEmail }}</td>
-                  <td>{{ attendee.MemberPhone }}</td>
-                  <td>{{ attendee.hasEditAccess }}</td>
-                  <td>
-                    <p-button type="button" icon="pi pi-search"></p-button>
-                  </td>
-                </tr>
-              </ng-template>
-              <ng-template pTemplate="emptymessage">
-                <tr>
-                  <td colspan="6">There are no attendee for this event yet.</td>
-                </tr>
-              </ng-template>
-            </p-table>
+            <app-attendee [value]="events.Members" [eventId]="events.EventId" [description]="events.EventDescription"></app-attendee>
           </div>
         </td>
       </tr>
     </ng-template>
+    
+    
   </p-table>
 </section>

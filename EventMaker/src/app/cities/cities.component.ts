@@ -101,7 +101,11 @@ export class CitiesComponent implements OnInit {
     this.eventService.deleteEventById(eventId).subscribe({
       next: (res: any) => {},
       error: (err) => {
-        this.errorMessage = err;
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: err.message,
+        });
       },
       complete: () => {
         this.getEvents();

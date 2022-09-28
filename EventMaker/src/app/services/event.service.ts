@@ -16,27 +16,30 @@ export class EventService {
   constructor(private http: HttpClient) {}
 
   getAllEvents(): Observable<Array<EventGroup>> {
-    const results: Observable<Array<EventGroup>> = this.http.get<Array<EventGroup>>(this.eventsUrl);
+    const results: Observable<Array<EventGroup>> = this.http.get<
+      Array<EventGroup>
+    >(this.eventsUrl);
     console.log(`getAllCities() returned ${results} `);
     return results;
   }
 
   getEventById(eventId: number): Observable<EventGroup> {
-    const results: Observable<EventGroup> = this.http.get<EventGroup>(`${this.eventsUrl}/${eventId}`);
+    const results: Observable<EventGroup> = this.http.get<EventGroup>(
+      `${this.eventsUrl}/${eventId}`
+    );
     console.log(`getEventById(${eventId})returned ${results} `);
     return results;
   }
 
   getEventsByCityCode(cityCode: string): Observable<Array<EventGroup>> {
-    const results: Observable<Array<EventGroup>> = this.http.get<Array<EventGroup>>(
-      `${this.eventsUrl}/byorganization/${cityCode}`
-    );
+    const results: Observable<Array<EventGroup>> = this.http.get<
+      Array<EventGroup>
+    >(`${this.eventsUrl}/byorganization/${cityCode}`);
     console.log(`getEventsByCityId(${cityCode})returned ${results} `);
     return results;
   }
 
   addEvent(event: EventGroup): Observable<EventGroup> {
-    console.log("adding new event:", event);
     const results: Observable<EventGroup> = this.http.post<EventGroup>(
       this.eventsUrl,
       event,
@@ -47,7 +50,6 @@ export class EventService {
   }
 
   updateEvent(event: EventGroup): Observable<EventGroup> {
-    console.log(event)
     const results: Observable<EventGroup> = this.http.put<EventGroup>(
       this.eventsUrl,
       event,
