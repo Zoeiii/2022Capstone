@@ -68,18 +68,15 @@ export class AttendeeComponent implements OnInit {
     this.clonedAttendee[event.EventId] = { ...event };
   }
 
-  // next: () => {},
-  // error: () => {},
-  // complete: () => {},
   onRowEditSave(attendee: Attendee) {
     this.attendeeService.updateAttendeeInfo(this.eventId, attendee).subscribe({
       next: () => {
-        // delete this.clonedAttendee[eventId.EventId];
-        // this.messageService.add({
-        //   severity: 'success',
-        //   summary: 'Success',
-        //   detail: 'Product is updated',
-        // });
+        delete this.clonedAttendee[attendee.MemberId];
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Product is updated',
+        });
       },
       error: (err) => {
         this.messageService.add({

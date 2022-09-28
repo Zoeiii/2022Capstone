@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -22,7 +23,7 @@ export class CitiesComponent implements OnInit {
   errorMessage!: string;
   currentCity!: City;
   readonly minDate = new Date();
-  clonedProducts: { [s: string]: EventGroup } = {};
+  clonedEvent: { [s: string]: EventGroup } = {};
 
   items: MenuItem[] = [
     { label: 'Home', url: '/home' },
@@ -135,13 +136,14 @@ export class CitiesComponent implements OnInit {
   }
 
   onRowEditInit(event: EventGroup) {
-    this.clonedProducts[event.EventId] = { ...event };
+    this.clonedEvent[event.EventId] = { ...event };
   }
 
   onRowEditSave(event: EventGroup) {
+    console.log(event)
     this.eventService.updateEvent(event).subscribe({
       next: () => {
-        delete this.clonedProducts[event.EventId];
+        delete this.clonedEvent[event.EventId];
         this.messageService.add({
           severity: 'success',
           summary: 'Success',

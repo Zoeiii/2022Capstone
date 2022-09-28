@@ -3,5 +3,4 @@ export interface Attendee {
   MemberEmail: string;
   MemberName: string;
   MemberPhone: string;
-  hasEditAccess: boolean;
 }
