@@ -1,4 +1,6 @@
-<p-table [value]="value" dataKey="MemberId">
+<app-register-attendee [displayAdd]="displayAddAttendee" [eventId]="eventId"></app-register-attendee>
+
+<p-table [value]="attendees" dataKey="MemberId" [paginator]="true" [rows]="5" editMode="row">
   <ng-template pTemplate="caption">
     <p style="text-align: center">{{ description }}</p>
   </ng-template>
@@ -31,7 +33,7 @@
       <td>{{ attendee.MemberPhone }}</td>
       <td>{{ attendee.hasEditAccess }}</td>
       <td style="text-align: center">
-        <button
+        <!-- <button
           *ngIf="!editing"
           pButton
           pRipple
@@ -60,7 +62,7 @@
           icon="pi pi-times"
           (click)="onRowEditCancel(attendee, ri)"
           class="p-button-rounded p-button-text p-button-danger"
-        ></button>
+        ></button> -->
         <button
           *ngIf="!editing"
           pButton
@@ -80,7 +82,7 @@
       </td>
     </tr>
   </ng-template>
-  <ng-template pTemplate="footer">
-    <p-button label="Create New Event" (click)="registerAttendee()"></p-button>
+  <ng-template pTemplate="paginatorright">
+    <p-button label="Add Attendee" (click)="registerAttendee()"></p-button>
   </ng-template>
 </p-table>

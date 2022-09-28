@@ -10,9 +10,10 @@ import { AttendeeService } from '../services/attendee.service';
   styleUrls: ['./attendee.component.css'],
 })
 export class AttendeeComponent implements OnInit {
-  @Input() value!: Array<EventGroup>;
+  @Input() attendees!: Array<Attendee>;
   @Input() description!: string;
   @Input() eventId!: number;
+  displayAddAttendee:boolean = false;
   clonedAttendee: { [s: string]: EventGroup } = {};
 
   constructor(
@@ -23,7 +24,9 @@ export class AttendeeComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  registerAttendee() {}
+  registerAttendee() {
+    this.displayAddAttendee = true;
+  }
 
   removeAttendee(attendeeId: number) {
     this.attendeeService.deleteAttendee(this.eventId, attendeeId).subscribe({

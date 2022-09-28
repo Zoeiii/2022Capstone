@@ -1,1 +1,69 @@
-<p>register-attendee works!</p>
+<p-dialog
+  header="Add a new attendee"
+  [(visible)]="displayAdd"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <ng-template pTemplate="header"> In event {{ eventId }} </ng-template>
+  <form
+    [formGroup]="regForm"
+    class="box"
+    id="registerForm"
+    (ngSubmit)="onSubmit(regForm.value)"
+  >
+    <section class="p-fluid grid formgrid col-12">
+      <div class="field col-4 md-2">
+        <label for="MemberName">Member Name</label>
+        <div class="p-inputgroup">
+          <span class="p-inputgroup-addon"><i class="pi pi-ticket"></i></span>
+          <input
+            type="text"
+            pInputText
+            id="MemberName"
+            formControlName="MemberName"
+            placeholder="Enter an event name"
+          />
+        </div>
+      </div>
+      <div class="field col-4 md-2">
+        <label for="MemberEmail">Member Email</label>
+        <div class="p-inputgroup">
+          <span class="p-inputgroup-addon"><i class="pi pi-ticket"></i></span>
+          <input
+            type="text"
+            pInputText
+            id="MemberEmail"
+            formControlName="MemberEmail"
+            placeholder="Enter an event name"
+          />
+        </div>
+      </div>
+      <div class="field col-4 md-2">
+        <label for="MemberPhone">Member Phone</label>
+        <div class="p-inputgroup">
+          <span class="p-inputgroup-addon"><i class="pi pi-ticket"></i></span>
+          <input
+            type="text"
+            pInputText
+            id="MemberPhone"
+            formControlName="MemberPhone"
+            placeholder="Enter an event name"
+          />
+        </div>
+      </div>
+    </section>
+  </form>
+  <ng-template pTemplate="footer">
+    <p-button
+      (click)="displayAdd = false"
+      label="Cancel"
+      styleClass="p-button-text"
+    ></p-button>
+    <p-button
+      type="submit"
+      label="Add"
+      (click)="onSubmit(regForm.value)"
+      styleClass="p-button-text"
+    ></p-button>
+  </ng-template>
+</p-dialog>

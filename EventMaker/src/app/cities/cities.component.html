@@ -234,12 +234,10 @@
         <td colspan="2" style="visibility: hidden"></td>
         <td colspan="5">
           <div class="p-p-3">
-            <app-attendee [value]="events.Members" [eventId]="events.EventId" [description]="events.EventDescription"></app-attendee>
+            <app-attendee [attendees]="events.Members" [eventId]="events.EventId" [description]="events.EventDescription"></app-attendee>
           </div>
         </td>
       </tr>
     </ng-template>
-    
-    
   </p-table>
 </section>

@@ -33,7 +33,6 @@ export class CreateEventComponent implements OnInit {
 
     this.regForm = new FormGroup({
       eventName: new FormControl(null, [Validators.required]),
-      
       eventOrganizer: new FormControl(null, [Validators.required]),
       eventOrganizerEmail: new FormControl(null, [Validators.required]),
       location: new FormControl(null, [Validators.required]),

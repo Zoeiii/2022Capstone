@@ -15,6 +15,8 @@ import { CitiesComponent } from './cities/cities.component';
 import { MainComponent } from './main/main.component';
 import { CreateEventComponent } from './events/create-event/create-event.component';
 import { RegisterFormComponent } from './shared/register-form/register-form.component';
+import { RegisterAttendeeComponent } from './attendee/register-attendee/register-attendee.component';
+import { AttendeeComponent } from './attendee/attendee.component';
 
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { ButtonModule } from 'primeng/button';
@@ -29,9 +31,8 @@ import {InputTextareaModule} from 'primeng/inputtextarea';
 import {InputNumberModule} from 'primeng/inputnumber';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {ToastModule} from 'primeng/toast';
+import {DialogModule} from 'primeng/dialog';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { RegisterAttendeeComponent } from './attendee/register-attendee/register-attendee.component';
-import { AttendeeComponent } from './attendee/attendee.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import { AttendeeComponent } from './attendee/attendee.component';
     InputTextareaModule,
     InputNumberModule,
     ConfirmDialogModule,
-    ToastModule
+    ToastModule,
+    DialogModule
   ],
   providers: [ConfirmationService, MessageService],
   bootstrap: [AppComponent],
