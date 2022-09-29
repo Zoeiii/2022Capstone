@@ -40,7 +40,7 @@
               pInputText
               type="text"
               [(ngModel)]="attendee.MemberName"
-              placeholder="Enter the display name of this attendee"
+              placeholder="Enter attendee's name"
               required
             />
           </ng-template>
@@ -56,6 +56,7 @@
               pInputText
               type="text"
               [(ngModel)]="attendee.MemberEmail"
+              placeholder="Enter attendee's email"
               required
             />
           </ng-template>
@@ -70,6 +71,7 @@
             <p-inputMask
               [(ngModel)]="attendee.MemberPhone"
               mask="999-999-9999"
+              placeholder="999-999-9999"
               [required]="true"
             ></p-inputMask>
           </ng-template>

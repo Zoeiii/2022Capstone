@@ -20,6 +20,7 @@ export class SearchComponent implements OnInit {
   allEvents!: Array<EventGroup>;
   events!: Array<EventGroup>;
   errorMessage!: string;
+  caption: string = 'Search result';
 
   constructor(
     private title: Title,
@@ -28,13 +29,16 @@ export class SearchComponent implements OnInit {
     private searchService: SearchService
   ) {
     this.title.setTitle('Search for Events');
-    this.getAllEvents();
     this.searchService.searchInput$.subscribe({
       next: (res: string) => {
         this.searchInput = res;
-        console.log('search component:', this.searchInput);
+        if (res) {
+          this.caption = `Search result for event name that contains: ${this.searchInput}`;
+        } else {
+          this.caption = `Search result for all the events in all four cities`;
+        }
+        this.getAllEvents();
         this.searchEventByName(res);
-        console.log(this.events);
       },
       error: (err) => {
         this.errorMessage = err;

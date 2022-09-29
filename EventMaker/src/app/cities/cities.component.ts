@@ -20,13 +20,14 @@ export class CitiesComponent implements OnInit {
   events!: Array<EventGroup>;
   errorMessage!: string;
   currentCity!: City;
+  caption!: string;
 
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private title: Title,
     private cityService: CityService,
-    private eventService: EventService,
+    private eventService: EventService
   ) {
     this.title.setTitle('List of Events');
     //detects route param change
@@ -35,6 +36,7 @@ export class CitiesComponent implements OnInit {
         if (event instanceof NavigationEnd) {
           let routeParam = this.activatedRoute.snapshot.paramMap.get('id');
           this.cityCode = routeParam ? routeParam : 'NY';
+          this.caption = `List of events in ${this.cityCode}`;
           this.getEventsByCityCode();
           this.getCurrentCity();
         }
@@ -42,8 +44,7 @@ export class CitiesComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   getCurrentCity() {
     this.cityService.getCityByCityCode(this.cityCode).subscribe({
@@ -79,5 +80,4 @@ export class CitiesComponent implements OnInit {
       },
     });
   }
-
 }

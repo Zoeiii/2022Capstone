@@ -34,17 +34,7 @@
     >
       <!-- dataKey="EventId", is the key here to edit by row, and it must be a unique field of your data -->
       <ng-template pTemplate="caption">
-        <p>
-          List of Events in {{ cityCode }}
-          <!-- <p-multiSelect
-            [options]="tableHeader"
-            [(ngModel)]="tableHeader"
-            optionLabel="name"
-            selectedItemsLabel="{0} columns selected"
-            [style]="{ minWidth: '200px' }"
-            placeholder="Choose Columns"
-          ></p-multiSelect> -->
-        </p>
+        <p>{{caption}}</p>
       </ng-template>
       <ng-template pTemplate="header">
         <tr>

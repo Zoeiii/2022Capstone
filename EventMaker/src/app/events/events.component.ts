@@ -18,6 +18,7 @@ export class EventsComponent implements OnInit {
   //TODO: make it dynamic later on
   @Input() cityCode: string = '';
   @Input() events!: Array<EventGroup>;
+  @Input() caption:string='';
   @Output() refreshEvent = new EventEmitter<boolean>();
   errorMessage!: string;
   currentCity!: City;

@@ -158,6 +158,11 @@ export class AttendeeComponent implements OnInit {
         this.addAttendee(attendee);
       }
     }
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Error',
+      detail: 'Error updating attendee information',
+    });
   }
 
   onRowEditCancel(attendee: Attendee, index: number) {
