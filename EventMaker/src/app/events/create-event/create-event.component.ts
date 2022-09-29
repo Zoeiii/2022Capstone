@@ -34,6 +34,7 @@ export class CreateEventComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private activatedRoute: ActivatedRoute,
     private fb: FormBuilder,
     private eventService: EventService,
     private cityService: CityService,
@@ -42,15 +43,21 @@ export class CreateEventComponent implements OnInit {
     let currentUrl = this.router.url;
     router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        let previousUrl = currentUrl;
-        currentUrl = event.url;
+        // let previousUrl = currentUrl;
+        // currentUrl = event.url;
 
-        if (previousUrl.includes('cities')) {
-          this.previousUrl = previousUrl;
-          this.cityCode = previousUrl.slice(8);
-          console.log(
-            `prev url is: ${previousUrl} and cityCode is ${this.cityCode}`
-          );
+        // if (previousUrl.includes('cities')) {
+        //   this.previousUrl = previousUrl;
+        //   this.cityCode = previousUrl.slice(8);
+        //   console.log(
+        //     `prev url is: ${previousUrl} and cityCode is ${this.cityCode}`
+        //   );
+        //   this.setDefaultCity(this.cityCode);
+        // }
+
+        let routeParam = this.activatedRoute.snapshot.paramMap.get('id');
+        this.cityCode = routeParam ? routeParam : '';
+        if(this.cityCode){
           this.setDefaultCity(this.cityCode);
         }
       }

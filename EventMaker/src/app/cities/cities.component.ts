@@ -128,17 +128,13 @@ export class CitiesComponent implements OnInit {
     });
   }
 
-  route(): void {
-    this.router.navigate(['group']);
-  }
-
   //TODO: refresh the search result
   refresh() {
     this.getEventsByCityCode();
   }
 
   createNewEvent() {
-    this.router.navigate([`createNewEvent`]);
+    this.router.navigate([`createNewEvent/${this.cityCode}`]);
   }
 
   deleteEventById(eventId: number) {

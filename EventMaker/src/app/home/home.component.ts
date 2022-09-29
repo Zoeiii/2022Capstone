@@ -42,6 +42,7 @@ export class HomeComponent implements OnInit {
         this.images = res.map((city: City) => {
           let image: ImageNav = {
             title: city.CityName,
+            code: city.CityCode,
             thumbnailImageSrc: city.CityImageSrc,
             previewImageSrc: city.CityImageSrc,
             alt: `Event in ${city.CityName}`,
@@ -53,7 +54,7 @@ export class HomeComponent implements OnInit {
   }
 
   navigateToCity(event:any){
-    let cityName = event.target.name;
-    this.router.navigate([cityName]);
+    let cityCode = event.target.name;
+    this.router.navigate([`cities/${cityCode}`]);
   }
 }

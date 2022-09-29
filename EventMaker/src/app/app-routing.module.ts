@@ -12,6 +12,7 @@ const routes: Routes = [
   { path: 'events', component: EventsComponent },
   { path: 'search', component: SearchComponent },
   { path: 'home', component: HomeComponent },
+  { path: 'createNewEvent/:id', component: CreateEventComponent },
   { path: 'createNewEvent', component: CreateEventComponent },
   { path: '', component: HomeComponent },
   fallbackRoute,

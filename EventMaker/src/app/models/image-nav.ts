@@ -3,4 +3,5 @@ export interface ImageNav {
   thumbnailImageSrc: string;
   alt: string;
   title: string;
+  code: string;
 }
