@@ -40,28 +40,15 @@ export class CreateEventComponent implements OnInit {
     private cityService: CityService,
     private messageService: MessageService
   ) {
-    let currentUrl = this.router.url;
-    router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        // let previousUrl = currentUrl;
-        // currentUrl = event.url;
-
-        // if (previousUrl.includes('cities')) {
-        //   this.previousUrl = previousUrl;
-        //   this.cityCode = previousUrl.slice(8);
-        //   console.log(
-        //     `prev url is: ${previousUrl} and cityCode is ${this.cityCode}`
-        //   );
-        //   this.setDefaultCity(this.cityCode);
-        // }
-
-        let routeParam = this.activatedRoute.snapshot.paramMap.get('id');
-        this.cityCode = routeParam ? routeParam : '';
-        if(this.cityCode){
-          this.setDefaultCity(this.cityCode);
-        }
-      }
-    });
+    // this.router.events.subscribe((event) => {
+    //   if (event instanceof NavigationEnd) {
+    //     let routeParam = this.activatedRoute.snapshot.paramMap.get('id');
+    //     this.cityCode = routeParam ? routeParam : '';
+    //     if(this.cityCode){
+    //       this.setDefaultCity(this.cityCode);
+    //     }
+    //   }
+    // });
 
     this.cityService.getAllCities().subscribe({
       next: (res: any) => {
@@ -79,6 +66,12 @@ export class CreateEventComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    let routeParam = this.activatedRoute.snapshot.paramMap.get('id');
+    this.cityCode = routeParam ? routeParam : '';
+    if (this.cityCode) {
+      this.setDefaultCity(this.cityCode);
+    }
+
     this.regForm = this.fb.group({
       eventName: ['', Validators.required],
       eventOrganizer: ['', Validators.required],

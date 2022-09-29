@@ -1,1 +1,248 @@
-<p>events works!</p>
+<p-toast></p-toast>
+
+<p-confirmDialog #cd header="Confirmation" icon="pi pi-exclamation-triangle">
+  <ng-template pTemplate="footer">
+    <button
+      type="button"
+      pButton
+      icon="pi pi-times"
+      label="No"
+      (click)="cd.reject()"
+    ></button>
+    <button
+      type="button"
+      pButton
+      icon="pi pi-check"
+      label="Yes"
+      (click)="cd.accept()"
+    ></button>
+  </ng-template>
+</p-confirmDialog>
+
+<section>
+    <p-table
+      [value]="events"
+      [paginator]="true"
+      [rows]="10"
+      [showCurrentPageReport]="true"
+      [resizableColumns]="true"
+      [rowsPerPageOptions]="[10, 25, 50]"
+      styleClass="p-datatable-sm"
+      responsiveLayout="scroll"
+      editMode="row"
+      dataKey="EventId"
+    >
+      <!-- dataKey="EventId", is the key here to edit by row, and it must be a unique field of your data -->
+      <ng-template pTemplate="caption">
+        <p>
+          List of Events in {{ cityCode }}
+          <!-- <p-multiSelect
+            [options]="tableHeader"
+            [(ngModel)]="tableHeader"
+            optionLabel="name"
+            selectedItemsLabel="{0} columns selected"
+            [style]="{ minWidth: '200px' }"
+            placeholder="Choose Columns"
+          ></p-multiSelect> -->
+        </p>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 3rem"></th>
+          <th
+            *ngFor="let header of tableHeader"
+            pResizableColumn
+            [pSortableColumn]="header.sortableColumnName"
+          >
+            {{ header.name }}
+            <p-sortIcon [field]="header.sortableColumnName"></p-sortIcon>
+          </th>
+          <th>Edit/Delete</th>
+        </tr>
+      </ng-template>
+      <ng-template
+        pTemplate="body"
+        let-events
+        let-editing="editing"
+        let-ri="rowIndex"
+        let-expanded="expanded"
+      >
+        <tr [pEditableRow]="events">
+          <td>
+            <button
+              type="button"
+              pButton
+              pRipple
+              [disabled]="editing"
+              [pRowToggler]="events"
+              class="p-button-text p-button-rounded p-button-plain"
+              [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
+            ></button>
+          </td>
+          <td>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input pInputText type="text" [(ngModel)]="events.EventName" />
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{ events.EventName }}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input
+                  pInputText
+                  type="text"
+                  [(ngModel)]="events.EventOrganizer"
+                />
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{ events.EventOrganizer }}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <p-calendar
+                  [showTime]="true"
+                  hourFormat="24"
+                  [minDate]="minDate"
+                  [monthNavigator]="true"
+                  [yearNavigator]="true"
+                  yearRange="2022:2030"
+                  [appendTo]="'body'"
+                  [placeholder]="events.StartTime"
+                  [(ngModel)]="events.StartTime"
+                ></p-calendar>
+              </ng-template>
+              <ng-template pTemplate="output">{{
+                events.StartTime | date: "short"
+              }}</ng-template></p-cellEditor
+            >
+          </td>
+          <td>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <p-calendar
+                  [showTime]="true"
+                  hourFormat="24"
+                  [minDate]="minDate"
+                  [monthNavigator]="true"
+                  [yearNavigator]="true"
+                  yearRange="2022:2030"
+                  [appendTo]="'body'"
+                  [placeholder]="events.EndTime"
+                  [(ngModel)]="events.EndTime"
+                ></p-calendar>
+              </ng-template>
+              <ng-template pTemplate="output">{{
+                events.EndTime | date: "short"
+              }}</ng-template></p-cellEditor
+            >
+          </td>
+          <td>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input pInputText type="text" [(ngModel)]="events.Location" />
+              </ng-template>
+              <ng-template pTemplate="output"> {{ events.Location }}</ng-template>
+            </p-cellEditor>
+          </td>
+          <td>
+            {{ events.CityName }}
+          </td>
+  
+          <td>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <p-inputNumber
+                  mode="decimal"
+                  [showButtons]="true"
+                  [(ngModel)]="events.MaxAttendeeSize"
+                >
+                </p-inputNumber>
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{ events.MaxAttendeeSize }}</ng-template
+              >
+            </p-cellEditor>
+          </td>
+          <td style="text-align: center">
+            <button
+              *ngIf="!editing"
+              pButton
+              pRipple
+              type="button"
+              pInitEditableRow
+              icon="pi pi-pencil"
+              (click)="onRowEditInit(events)"
+              class="p-button-rounded p-button-text"
+            ></button>
+            <button
+              *ngIf="editing"
+              pButton
+              pRipple
+              type="button"
+              pSaveEditableRow
+              icon="pi pi-check"
+              (click)="onRowEditSave(events)"
+              class="p-button-rounded p-button-text p-button-success p-mr-2"
+            ></button>
+            <button
+              *ngIf="editing"
+              pButton
+              pRipple
+              type="button"
+              pCancelEditableRow
+              icon="pi pi-times"
+              (click)="onRowEditCancel(events, ri)"
+              class="p-button-rounded p-button-text p-button-danger"
+            ></button>
+            <button
+              *ngIf="!editing"
+              pButton
+              pRipple
+              type="button"
+              class="p-button-rounded p-button-danger p-button-text"
+              icon="pi pi-trash"
+              (click)="confirmDelete(events.EventId)"
+            ></button>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="6">There are no event for this city yet.</td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="paginatorleft">
+        <p-button
+          type="button"
+          icon="pi pi-refresh"
+          (click)="refresh()"
+          styleClass="p-button-text"
+        ></p-button>
+      </ng-template>
+      <ng-template pTemplate="paginatorright">
+        <p-button label="Create New Event" (click)="createNewEvent()"></p-button>
+      </ng-template>
+  
+      <ng-template pTemplate="rowexpansion" let-events>
+        <tr>
+          <td colspan="2" style="visibility: hidden"></td>
+          <td colspan="5">
+            <div class="p-p-3">
+              <app-attendee
+                [attendees]="events.Members"
+                [eventId]="events.EventId"
+                [description]="events.EventDescription"
+              ></app-attendee>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </section>

@@ -34,6 +34,7 @@ import { DialogModule } from 'primeng/dialog';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AddRowDirective } from './shared/add-row.directive';
+import { InputMaskModule } from 'primeng/inputmask';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,7 @@ import { AddRowDirective } from './shared/add-row.directive';
     CreateEventComponent,
     RegisterAttendeeComponent,
     AttendeeComponent,
-    AddRowDirective
+    AddRowDirective,
   ],
   imports: [
     BreadcrumbModule,
@@ -73,6 +74,7 @@ import { AddRowDirective } from './shared/add-row.directive';
     ToastModule,
     DialogModule,
     MultiSelectModule,
+    InputMaskModule,
   ],
   providers: [ConfirmationService, MessageService],
   bootstrap: [AppComponent],

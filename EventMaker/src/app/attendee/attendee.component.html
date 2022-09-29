@@ -1,3 +1,4 @@
+<!-- <form [formGroup]="regForm"> -->
 <p-table
   #attendeesTable
   [value]="attendees"
@@ -39,6 +40,7 @@
               pInputText
               type="text"
               [(ngModel)]="attendee.MemberName"
+              placeholder="Enter the display name of this attendee"
               required
             />
           </ng-template>
@@ -65,12 +67,11 @@
       <td>
         <p-cellEditor>
           <ng-template pTemplate="input">
-            <input
-              pInputText
-              type="text"
+            <p-inputMask
               [(ngModel)]="attendee.MemberPhone"
-              required
-            />
+              mask="999-999-9999"
+              [required]="true"
+            ></p-inputMask>
           </ng-template>
           <ng-template pTemplate="output">
             {{ attendee.MemberPhone }}
@@ -86,7 +87,7 @@
           type="button"
           pInitEditableRow
           icon="pi pi-pencil"
-          (click)="onRowEditInit(attendee)"
+          (click)="onRowEditInit(attendee, ri)"
           class="p-button-rounded p-button-text"
         ></button>
         <button
@@ -96,7 +97,7 @@
           type="button"
           pSaveEditableRow
           icon="pi pi-check"
-          (click)="onRowEditSave(attendee)"
+          (click)="onRowEditSave(attendee, $event)"
           class="p-button-rounded p-button-text p-button-success p-mr-2"
         ></button>
         <button
@@ -141,3 +142,4 @@
     ></button>
   </ng-template>
 </p-table>
+<!-- </form> -->

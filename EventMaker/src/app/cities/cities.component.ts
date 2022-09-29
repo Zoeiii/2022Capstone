@@ -3,6 +3,7 @@ import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { Subject } from 'rxjs';
 
 import { City } from '../models/city';
 import { EventGroup } from '../models/eventGroup';
@@ -15,46 +16,10 @@ import { EventService } from '../services/event.service';
   styleUrls: ['./cities.component.css'],
 })
 export class CitiesComponent implements OnInit {
-  //TODO: make it dynamic later on
   cityCode: string = '';
   events!: Array<EventGroup>;
   errorMessage!: string;
   currentCity!: City;
-  readonly minDate = new Date();
-  tableHeader = [
-    {
-      name: 'Event Name',
-      sortableColumnName: 'EventName',
-    },
-    {
-      name: 'Event Organizer',
-      sortableColumnName: 'EventOrganizer',
-    },
-    {
-      name: 'Event StartTime',
-      sortableColumnName: 'StartTime',
-    },
-    {
-      name: 'Event EndTime',
-      sortableColumnName: 'EndTime',
-    },
-    {
-      name: 'Event Location',
-      sortableColumnName: 'Location',
-    },
-    {
-      name: 'City',
-      sortableColumnName: 'City Name',
-    },
-    {
-      name: 'Max Attendee',
-      sortableColumnName: 'MaxAttendeeSize',
-    },
-  ];
-
-  _selectedColumns!: any[];
-
-  clonedEvent: { [s: string]: EventGroup } = {};
 
   constructor(
     private router: Router,
@@ -62,12 +27,10 @@ export class CitiesComponent implements OnInit {
     private title: Title,
     private cityService: CityService,
     private eventService: EventService,
-    private confirmationService: ConfirmationService,
-    private messageService: MessageService
   ) {
     this.title.setTitle('List of Events');
     //detects route param change
-    router.events.subscribe({
+    this.router.events.subscribe({
       next: (event) => {
         if (event instanceof NavigationEnd) {
           let routeParam = this.activatedRoute.snapshot.paramMap.get('id');
@@ -80,17 +43,6 @@ export class CitiesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._selectedColumns = this.tableHeader;
-  }
-
-  @Input() get selectedColumns(): any[] {
-    return this._selectedColumns;
-  }
-
-  set selectedColumns(val: any[]) {
-    //restore original order
-    this._selectedColumns = this.tableHeader.filter((col) => val.includes(col));
-    console.log('selected: ', val, this._selectedColumns)
   }
 
   getCurrentCity() {
@@ -128,80 +80,4 @@ export class CitiesComponent implements OnInit {
     });
   }
 
-  //TODO: refresh the search result
-  refresh() {
-    this.getEventsByCityCode();
-  }
-
-  createNewEvent() {
-    this.router.navigate([`createNewEvent/${this.cityCode}`]);
-  }
-
-  deleteEventById(eventId: number) {
-    this.eventService.deleteEventById(eventId).subscribe({
-      next: (res: any) => {},
-      error: (err) => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: err.message,
-        });
-      },
-      complete: () => {
-        this.getEventsByCityCode();
-      },
-    });
-  }
-
-  confirmDelete(eventId: number) {
-    this.confirmationService.confirm({
-      message: 'Are you sure that you want to delete this event?',
-      accept: () => {
-        this.deleteEventById(eventId);
-        this.messageService.add({
-          severity: 'info',
-          summary: 'Succeed',
-          detail: 'Event deleted.',
-        });
-      },
-      reject: () => {
-        this.messageService.add({
-          severity: 'warn',
-          summary: 'Cancelled',
-          detail: 'You have cancelled delete.',
-        });
-      },
-    });
-  }
-
-  onRowEditInit(event: EventGroup) {
-    this.clonedEvent[event.EventId] = { ...event };
-  }
-
-  onRowEditSave(event: EventGroup) {
-    console.log(event);
-    this.eventService.updateEvent(event).subscribe({
-      next: () => {
-        delete this.clonedEvent[event.EventId];
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: 'Event detail is updated',
-        });
-      },
-      error: (err) => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: err.message,
-        });
-      },
-      complete: () => {},
-    });
-  }
-
-  onRowEditCancel(event: EventGroup, index: number) {
-    this.events[index] = this.clonedEvent[event.EventId];
-    delete this.clonedEvent[event.EventId];
-  }
 }

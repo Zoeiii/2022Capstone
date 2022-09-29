@@ -1,5 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { Table } from 'primeng/table';
 import { Attendee } from '../models/attendee';
 import { EventGroup } from '../models/eventGroup';
 import { AttendeeService } from '../services/attendee.service';
@@ -14,7 +16,9 @@ export class AttendeeComponent implements OnInit {
   @Input() attendees!: Array<Attendee>;
   @Input() description!: string;
   @Input() eventId!: number;
+  @ViewChild('attendeesTable') attendeesTable!: Table;
   clonedAttendee: { [s: string]: Attendee } = {};
+  submitted = false;
 
   constructor(
     private attendeeService: AttendeeService,
@@ -81,10 +85,24 @@ export class AttendeeComponent implements OnInit {
   }
 
   newRow(): any {
-    return { MemberName: '', MemberEmail: '', MemberPhone: '123-456-7890' };
+    return { MemberName: '', MemberEmail: '', MemberPhone: '' };
+  }
+
+  validateInput(attendee: Attendee): boolean {
+    console.log(this.attendeesTable);
+    if (attendee.MemberName.trim() == '') {
+      console.log(attendee.MemberName.trim());
+      return false;
+    }
+    if (attendee.MemberPhone == '') {
+      console.log(attendee.MemberPhone);
+      return false;
+    }
+    return true;
   }
 
   addAttendee(attendee: Attendee) {
+    this.submitted = true;
     this.attendeeService.addAttendee(this.eventId, attendee).subscribe({
       next: (res: Attendee) => {
         this.messageService.add({
@@ -102,48 +120,59 @@ export class AttendeeComponent implements OnInit {
         });
       },
       complete: () => {
+        this.submitted = false;
         this.getEvent();
       },
     });
   }
 
-  onRowEditInit(attendee: Attendee) {
+  onRowEditInit(attendee: Attendee, index: number) {
+    // this.attendeesTable.editingRowKeys = {[attendee.MemberId]:true}
     this.clonedAttendee[attendee.MemberId] = { ...attendee };
   }
 
-  onRowEditSave(attendee: Attendee) {
-    if (attendee.MemberId) {
-      this.attendeeService
-        .updateAttendeeInfo(this.eventId, attendee)
-        .subscribe({
-          next: () => {
-            delete this.clonedAttendee[attendee.MemberId];
-            this.messageService.add({
-              severity: 'success',
-              summary: 'Success',
-              detail: 'Attendee information is updated',
-            });
-          },
-          error: (err) => {
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error',
-              detail: 'Error updating attendee information',
-            });
-          },
-          complete: () => {},
-        });
-    } else {
-      this.addAttendee(attendee);
+  onRowEditSave(attendee: Attendee, event: Event) {
+    if (this.validateInput(attendee)) {
+      if (attendee.MemberId) {
+        this.attendeeService
+          .updateAttendeeInfo(this.eventId, attendee)
+          .subscribe({
+            next: () => {
+              delete this.clonedAttendee[attendee.MemberId];
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Success',
+                detail: 'Attendee information is updated',
+              });
+            },
+            error: (err) => {
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'Error updating attendee information',
+              });
+            },
+            complete: () => {},
+          });
+      } else {
+        this.addAttendee(attendee);
+      }
     }
   }
 
   onRowEditCancel(attendee: Attendee, index: number) {
+    let editOrAdd = 'Edit';
     if (attendee.MemberId) {
       this.attendees[index] = this.clonedAttendee[attendee.MemberId];
       delete this.clonedAttendee[attendee.MemberId];
     } else {
       this.attendees.shift();
+      editOrAdd = 'Add';
     }
+    this.messageService.add({
+      severity: 'warn',
+      summary: 'Cancelled',
+      detail: `${editOrAdd} attendee cancelled`,
+    });
   }
 }

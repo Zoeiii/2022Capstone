@@ -52,7 +52,10 @@ export class SearchComponent implements OnInit {
     this.eventService.getAllEvents().subscribe({
       next: (res: Array<EventGroup>) => {
         this.allEvents = res;
-        if (!this.events) this.events = this.allEvents;
+        if (!this.events) {
+          this.events = this.allEvents;
+          this.formatEvent();
+        }
         console.log('this is all the events: ', this.allEvents);
       },
       error: (err) => {
@@ -64,19 +67,24 @@ export class SearchComponent implements OnInit {
     });
   }
 
-  searchEventByName(eventName: string): void {
+  searchEventByName(eventName: string): Array<EventGroup> {
     if (eventName) {
       this.events = this.allEvents.filter((event) => {
         return event.EventName.toLocaleLowerCase().includes(
           eventName.toLocaleLowerCase()
         );
       });
+      this.formatEvent();
     } else {
       this.events = this.allEvents;
     }
+    return this.events;
   }
 
-  route(): void {
-    this.router.navigate(['group']);
+  formatEvent() {
+    this.events.map((event: EventGroup) => {
+      event.StartTime = new Date(event.StartTime);
+      event.EndTime = new Date(event.EndTime);
+    });
   }
 }
