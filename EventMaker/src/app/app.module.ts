@@ -26,13 +26,15 @@ import { GalleriaModule } from 'primeng/galleria';
 import { TableModule } from 'primeng/table';
 import { PanelModule } from 'primeng/panel';
 import { DropdownModule } from 'primeng/dropdown';
-import {CalendarModule} from 'primeng/calendar';
-import {InputTextareaModule} from 'primeng/inputtextarea';
-import {InputNumberModule} from 'primeng/inputnumber';
-import {ConfirmDialogModule} from 'primeng/confirmdialog';
-import {ToastModule} from 'primeng/toast';
-import {DialogModule} from 'primeng/dialog';
+import { CalendarModule } from 'primeng/calendar';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ToastModule } from 'primeng/toast';
+import { DialogModule } from 'primeng/dialog';
+import { MultiSelectModule } from 'primeng/multiselect';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { AddRowDirective } from './add-row.directive';
 
 @NgModule({
   declarations: [
@@ -48,6 +50,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
     RegisterFormComponent,
     RegisterAttendeeComponent,
     AttendeeComponent,
+    AddRowDirective
   ],
   imports: [
     BreadcrumbModule,
@@ -70,7 +73,8 @@ import { ConfirmationService, MessageService } from 'primeng/api';
     InputNumberModule,
     ConfirmDialogModule,
     ToastModule,
-    DialogModule
+    DialogModule,
+    MultiSelectModule,
   ],
   providers: [ConfirmationService, MessageService],
   bootstrap: [AppComponent],

@@ -1,7 +1,18 @@
 import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import {
+  ActivatedRoute,
+  NavigationEnd,
+  Router,
+  RoutesRecognized,
+} from '@angular/router';
+import { MessageService } from 'primeng/api';
 import { City } from 'src/app/models/city';
 import { CityService } from 'src/app/services/city.service';
 import { EventService } from 'src/app/services/event.service';
@@ -14,38 +25,75 @@ import { EventService } from 'src/app/services/event.service';
 export class CreateEventComponent implements OnInit {
   regForm!: FormGroup;
   submit!: boolean;
-  cityCode!:string;
-  cityName!:string;
+  cityCode!: string;
+  selectedCity!: City;
+  cities!: Array<City>;
+  previousUrl!: string;
   errorMessage!: string;
   readonly minDate = new Date();
 
   constructor(
     private router: Router,
-    private activatedRoute: ActivatedRoute,
+    private fb: FormBuilder,
     private eventService: EventService,
-    private cityService: CityService
+    private cityService: CityService,
+    private messageService: MessageService
   ) {
-    let routeParam = this.activatedRoute.snapshot.paramMap.get('id');
-    this.cityCode = routeParam ?routeParam:'';
+    let currentUrl = this.router.url;
+    router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        let previousUrl = currentUrl;
+        currentUrl = event.url;
+
+        if (previousUrl.includes('cities')) {
+          this.previousUrl = previousUrl;
+          this.cityCode = previousUrl.slice(8);
+          console.log(
+            `prev url is: ${previousUrl} and cityCode is ${this.cityCode}`
+          );
+          this.setDefaultCity(this.cityCode);
+        }
+      }
+    });
+
+    this.cityService.getAllCities().subscribe({
+      next: (res: any) => {
+        this.cities = res;
+        console.log('All the cicies: ', this.cities);
+      },
+      error: () => {
+        this.errorMessage = `Error fetching all the cities`;
+        console.error(this.errorMessage);
+      },
+      complete: () => {
+        console.log(`Complete fetching all the cities.`);
+      },
+    });
   }
 
   ngOnInit(): void {
-
-    this.regForm = new FormGroup({
-      eventName: new FormControl(null, [Validators.required]),
-      eventOrganizer: new FormControl(null, [Validators.required]),
-      eventOrganizerEmail: new FormControl(null, [Validators.required]),
-      location: new FormControl(null, [Validators.required]),
-      maxAttendeeSize: new FormControl(5, [Validators.required]),
-      startTime: new FormControl(this.minDate, [Validators.required]),
-      endTime: new FormControl(this.minDate, [Validators.required]),
-      description: new FormControl(null, [Validators.required]),
+    this.regForm = this.fb.group({
+      eventName: ['', Validators.required],
+      eventOrganizer: ['', Validators.required],
+      eventOrganizerEmail: ['', Validators.required],
+      city: ['', Validators.required],
+      location: ['', Validators.required],
+      maxAttendeeSize: [5, Validators.required],
+      startTime: [this.minDate, Validators.required],
+      endTime: [this.minDate, Validators.required],
+      description: ['', Validators.required],
     });
+  }
 
-    this.cityService.getCityByCityCode(this.cityCode).subscribe({
+  setDefaultCity(code: string) {
+    this.cityService.getCityByCityCode(code).subscribe({
       next: (res: City) => {
-        this.cityName = res.CityName;
-        this.regForm.addControl('cityName', new FormControl(this.cityName));
+        this.selectedCity = res;
+        let city = this.regForm.get('city');
+        if (city) {
+          city.setValue(res.CityName);
+          //TODO: default city not working
+        }
       },
       error: () => {
         this.errorMessage = `Error fetching all the cities`;
@@ -54,24 +102,46 @@ export class CreateEventComponent implements OnInit {
       complete: () => {
         // console.log(`Complete fetching all the cities.`);
       },
-    })
+    });
   }
 
-  //TODO: after create jump back to the create page and expand that new event
+  onCancel(): void {
+    console.log(this.cityCode)
+    if (this.cityCode) {
+      this.router.navigate([`cities/${this.cityCode}`]);
+    } else {
+      this.router.navigate(['']);
+    }
+  }
+
   onSubmit(formValues: any): void {
     this.submit = true;
     console.log(formValues);
     console.log(this.regForm.valid);
-    formValues.startTime = formatDate(formValues.startTime, 'M/d/yy, h:mm a', 'en-US');
-    formValues.endTime = formatDate(formValues.endTime, 'M/d/yy, h:mm a', 'en-US');
+    formValues.startTime = formatDate(
+      formValues.startTime,
+      'M/d/yy, h:mm a',
+      'en-US'
+    );
+    formValues.endTime = formatDate(
+      formValues.endTime,
+      'M/d/yy, h:mm a',
+      'en-US'
+    );
     this.eventService.addEvent(formValues).subscribe({
-      next: (res: any) => {},
+      next: (res: any) => {
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Succeed',
+          detail: `${formValues.eventName} created in ${formValues.city}`,
+        });
+      },
       error: () => {
         console.error('Error creating a new event');
       },
       complete: () => {
-        
-        this.router.navigate([`cities/${this.cityCode}`])},
+        this.router.navigate([`cities/${this.cityCode}`]);
+      },
     });
   }
 }

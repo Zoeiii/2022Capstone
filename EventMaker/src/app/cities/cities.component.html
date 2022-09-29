@@ -32,36 +32,34 @@
   >
     <!-- dataKey="EventId", is the key here to edit by row, and it must be a unique field of your data -->
     <ng-template pTemplate="caption">
-      <p>List of Events in {{ cityCode }}</p>
+      <p>
+        List of Events in {{ cityCode }}
+        <!-- <p-multiSelect
+          [options]="tableHeader"
+          [(ngModel)]="tableHeader"
+          optionLabel="name"
+          selectedItemsLabel="{0} columns selected"
+          [style]="{ minWidth: '200px' }"
+          placeholder="Choose Columns"
+        ></p-multiSelect> -->
+      </p>
     </ng-template>
     <ng-template pTemplate="header">
       <tr>
         <th style="width: 3rem"></th>
-        <th pSortableColumn="EventName">
-          Event Name<p-sortIcon field="EventName"></p-sortIcon>
-        </th>
-        <th pSortableColumn="EventOrganizer">
-          Event Organizer<p-sortIcon field="EventOrganizer"></p-sortIcon>
-        </th>
-        <th pSortableColumn="StartTime">
-          Event StartTime<p-sortIcon field="StartTime"></p-sortIcon>
-        </th>
-        <th pSortableColumn="EndTime">
-          Event EndTime<p-sortIcon field="EndTime"></p-sortIcon>
-        </th>
-        <th pSortableColumn="Location">
-          Event Location<p-sortIcon field="Location"></p-sortIcon>
-        </th>
-        <th pSortableColumn="CityName">
-          City<p-sortIcon field="CityName"></p-sortIcon>
-        </th>
-        <th pSortableColumn="MaxAttendeeSize">
-          Max Attendee<p-sortIcon field="MaxAttendeeSize"></p-sortIcon>
+        <th
+          *ngFor="let header of tableHeader"
+          pResizableColumn
+          [pSortableColumn]="header.sortableColumnName"
+        >
+          {{ header.name }}
+          <p-sortIcon [field]="header.sortableColumnName"></p-sortIcon>
         </th>
         <th>Edit/Delete</th>
       </tr>
     </ng-template>
-    <ng-template pTemplate="body"
+    <ng-template
+      pTemplate="body"
       let-events
       let-editing="editing"
       let-ri="rowIndex"
@@ -236,7 +234,11 @@
         <td colspan="2" style="visibility: hidden"></td>
         <td colspan="5">
           <div class="p-p-3">
-            <app-attendee [attendees]="events.Members" [eventId]="events.EventId" [description]="events.EventDescription"></app-attendee>
+            <app-attendee
+              [attendees]="events.Members"
+              [eventId]="events.EventId"
+              [description]="events.EventDescription"
+            ></app-attendee>
           </div>
         </td>
       </tr>

@@ -257,7 +257,7 @@ app.post("/api/groups", urlencodedParser, function (req, res) {
   let group = {
     EventId: getNextId("group"), // assign id to group
     EventName: req.body.eventName,
-    CityName: req.body.cityName,
+    CityName: req.body.city,
     EventOrganizer:req.body.eventOrganizer,
     EventOrganizerEmail: req.body.eventOrganizerEmail,
     EventDescription: req.body.description,

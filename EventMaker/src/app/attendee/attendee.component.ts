@@ -14,8 +14,8 @@ export class AttendeeComponent implements OnInit {
   @Input() attendees!: Array<Attendee>;
   @Input() description!: string;
   @Input() eventId!: number;
-  displayAddAttendee: boolean = false;
   clonedAttendee: { [s: string]: Attendee } = {};
+  newAttendee = { MemberName: '', MemberEmail: '', MemberPhone: '' };
 
   constructor(
     private attendeeService: AttendeeService,
@@ -25,10 +25,6 @@ export class AttendeeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {}
-
-  registerAttendee() {
-    this.displayAddAttendee = true;
-  }
 
   getEvent(): void {
     this.eventService.getEventById(this.eventId).subscribe({
@@ -54,7 +50,7 @@ export class AttendeeComponent implements OnInit {
         this.getEvent();
         this.messageService.add({
           severity: 'info',
-          summary: 'Confirmed',
+          summary: 'Succeed',
           detail: 'Attendee removed.',
         });
       },
@@ -85,11 +81,33 @@ export class AttendeeComponent implements OnInit {
     });
   }
 
+  addAttendee(attendee:Attendee) {
+    this.attendeeService.addAttendee(this.eventId, attendee).subscribe({
+      next: (res: Attendee) => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: `New attendee ${res.MemberName} is added`,
+        });
+      },
+      error: (err) => {
+        this.attendees.shift();
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: `Unable to add new attendee, please try again later`,
+        });
+      },
+      complete: () => {},
+    });
+  }
+
   onRowEditInit(attendee: Attendee) {
     this.clonedAttendee[attendee.MemberId] = { ...attendee };
   }
 
   onRowEditSave(attendee: Attendee) {
+    if (attendee.MemberId) {
     this.attendeeService.updateAttendeeInfo(this.eventId, attendee).subscribe({
       next: () => {
         delete this.clonedAttendee[attendee.MemberId];
@@ -107,11 +125,18 @@ export class AttendeeComponent implements OnInit {
         });
       },
       complete: () => {},
-    });
+    });}
+    else{
+      this.addAttendee(attendee);
+    }
   }
 
   onRowEditCancel(attendee: Attendee, index: number) {
-    this.attendees[index] = this.clonedAttendee[attendee.MemberId];
-    delete this.clonedAttendee[attendee.MemberId];
+    if (attendee.MemberId) {
+      this.attendees[index] = this.clonedAttendee[attendee.MemberId];
+      delete this.clonedAttendee[attendee.MemberId];
+    } else {
+      this.attendees.shift();
+    }
   }
 }

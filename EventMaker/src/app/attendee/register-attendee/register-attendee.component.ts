@@ -37,7 +37,7 @@ export class RegisterAttendeeComponent implements OnInit {
       next: (res: any) => {
         this.messageService.add({
           severity: 'info',
-          summary: 'Confirmed',
+          summary: 'Succeed',
           detail: 'Attendee added',
         });
       },

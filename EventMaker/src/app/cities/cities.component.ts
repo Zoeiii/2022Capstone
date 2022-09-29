@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 
@@ -21,6 +21,39 @@ export class CitiesComponent implements OnInit {
   errorMessage!: string;
   currentCity!: City;
   readonly minDate = new Date();
+  tableHeader = [
+    {
+      name: 'Event Name',
+      sortableColumnName: 'EventName',
+    },
+    {
+      name: 'Event Organizer',
+      sortableColumnName: 'EventOrganizer',
+    },
+    {
+      name: 'Event StartTime',
+      sortableColumnName: 'StartTime',
+    },
+    {
+      name: 'Event EndTime',
+      sortableColumnName: 'EndTime',
+    },
+    {
+      name: 'Event Location',
+      sortableColumnName: 'Location',
+    },
+    {
+      name: 'City',
+      sortableColumnName: 'City Name',
+    },
+    {
+      name: 'Max Attendee',
+      sortableColumnName: 'MaxAttendeeSize',
+    },
+  ];
+
+  _selectedColumns!: any[];
+
   clonedEvent: { [s: string]: EventGroup } = {};
 
   constructor(
@@ -36,7 +69,7 @@ export class CitiesComponent implements OnInit {
     //detects route param change
     router.events.subscribe({
       next: (event) => {
-        if(event instanceof NavigationEnd){
+        if (event instanceof NavigationEnd) {
           let routeParam = this.activatedRoute.snapshot.paramMap.get('id');
           this.cityCode = routeParam ? routeParam : 'NY';
           this.getEventsByCityCode();
@@ -46,7 +79,19 @@ export class CitiesComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this._selectedColumns = this.tableHeader;
+  }
+
+  @Input() get selectedColumns(): any[] {
+    return this._selectedColumns;
+  }
+
+  set selectedColumns(val: any[]) {
+    //restore original order
+    this._selectedColumns = this.tableHeader.filter((col) => val.includes(col));
+    console.log('selected: ', val, this._selectedColumns)
+  }
 
   getCurrentCity() {
     this.cityService.getCityByCityCode(this.cityCode).subscribe({
@@ -68,10 +113,10 @@ export class CitiesComponent implements OnInit {
     this.eventService.getEventsByCityCode(this.cityCode).subscribe({
       next: (res: Array<EventGroup>) => {
         this.events = res;
-        this.events.map((event:EventGroup)=>{
-          event.StartTime = new Date(event.StartTime)
-          event.EndTime = new Date(event.EndTime)
-        })
+        this.events.map((event: EventGroup) => {
+          event.StartTime = new Date(event.StartTime);
+          event.EndTime = new Date(event.EndTime);
+        });
         console.log('this is all the events: ', this.events);
       },
       error: (err) => {
@@ -93,7 +138,7 @@ export class CitiesComponent implements OnInit {
   }
 
   createNewEvent() {
-    this.router.navigate([`createNewEvent/${this.cityCode}`]);
+    this.router.navigate([`createNewEvent`]);
   }
 
   deleteEventById(eventId: number) {
@@ -119,7 +164,7 @@ export class CitiesComponent implements OnInit {
         this.deleteEventById(eventId);
         this.messageService.add({
           severity: 'info',
-          summary: 'Confirmed',
+          summary: 'Succeed',
           detail: 'Event deleted.',
         });
       },
@@ -145,7 +190,7 @@ export class CitiesComponent implements OnInit {
         this.messageService.add({
           severity: 'success',
           summary: 'Success',
-          detail: 'Product is updated',
+          detail: 'Event detail is updated',
         });
       },
       error: (err) => {
