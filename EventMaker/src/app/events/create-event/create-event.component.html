@@ -1,3 +1,4 @@
+<p-toast></p-toast>
 <p-panel header="Create New Event">
   <form
     [formGroup]="regForm"
@@ -16,8 +17,17 @@
             id="eventName"
             formControlName="eventName"
             placeholder="Enter an event name"
+            [ngClass]="{
+              'ng-invalid ng-dirty':
+                !regForm.controls['eventName'].valid && submitted
+            }"
           />
         </div>
+        <small
+          *ngIf="!regForm.controls['eventName'].valid && submitted"
+          class="p-error"
+          >Enter an event name</small
+        >
       </div>
       <div class="field col-6 md-2">
         <label for="city">City</label>
@@ -43,8 +53,17 @@
             id="eventOrganizer"
             formControlName="eventOrganizer"
             placeholder="Enter the name for this event organizer"
+            [ngClass]="{
+              'ng-invalid ng-dirty':
+                !regForm.controls['eventOrganizer'].valid && submitted
+            }"
           />
         </div>
+        <small
+          *ngIf="!regForm.controls['eventOrganizer'].valid && submitted"
+          class="p-error"
+          >Enter the organizer's name of this event
+        </small>
       </div>
       <div class="field col-6 md-2">
         <label for="eventOrganizerEmail">Event Organizer Email</label>
@@ -56,8 +75,17 @@
             id="eventOrganizerEmail"
             formControlName="eventOrganizerEmail"
             placeholder="Enter the email for this event organizer"
+            [ngClass]="{
+              'ng-invalid ng-dirty':
+                !regForm.controls['eventOrganizerEmail'].valid && submitted
+            }"
           />
         </div>
+        <small
+          *ngIf="!regForm.controls['eventOrganizerEmail'].valid && submitted"
+          class="p-error"
+          >Enter the organizer's email of this event
+        </small>
       </div>
       <div class="field col-6 md-2">
         <label for="location">Event Location</label>
@@ -71,8 +99,17 @@
             id="location"
             formControlName="location"
             placeholder="Enter the location for this event"
+            [ngClass]="{
+              'ng-invalid ng-dirty':
+                !regForm.controls['location'].valid && submitted
+            }"
           />
         </div>
+        <small
+          *ngIf="!regForm.controls['location'].valid && submitted"
+          class="p-error"
+          >Tell us where this event will be located.</small
+        >
       </div>
       <div class="field col-6 md-2">
         <label for="maxAttendeeSize"> Max Attendee Size</label>
@@ -129,9 +166,16 @@
           id="description"
           formControlName="description"
           placeholder="Tell us what this event is about."
-          class="ng-invalid ng-dirty"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              !regForm.controls['description'].valid && submitted
+          }"
         ></textarea>
-        <small class="p-error">Tell us what this event is about.</small>
+        <small
+          *ngIf="!regForm.controls['description'].valid && submitted"
+          class="p-error"
+          >Tell us what this event is about.</small
+        >
       </div>
     </section>
   </form>
@@ -145,5 +189,3 @@
     <button pButton label="Cancel" (click)="onCancel()"></button>
   </ng-template>
 </p-panel>
-
-<p-toast></p-toast>

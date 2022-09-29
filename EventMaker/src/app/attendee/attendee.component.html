@@ -1,4 +1,5 @@
-<p-table #attendeesTable
+<p-table
+  #attendeesTable
   [value]="attendees"
   dataKey="MemberId"
   [paginator]="true"
@@ -34,7 +35,12 @@
       <td>
         <p-cellEditor>
           <ng-template pTemplate="input">
-            <input pInputText type="text" [(ngModel)]="attendee.MemberName" required/>
+            <input
+              pInputText
+              type="text"
+              [(ngModel)]="attendee.MemberName"
+              required
+            />
           </ng-template>
           <ng-template pTemplate="output">
             {{ attendee.MemberName }}
@@ -44,7 +50,12 @@
       <td>
         <p-cellEditor>
           <ng-template pTemplate="input">
-            <input pInputText type="text" [(ngModel)]="attendee.MemberEmail" required/>
+            <input
+              pInputText
+              type="text"
+              [(ngModel)]="attendee.MemberEmail"
+              required
+            />
           </ng-template>
           <ng-template pTemplate="output">
             {{ attendee.MemberEmail }}
@@ -54,7 +65,12 @@
       <td>
         <p-cellEditor>
           <ng-template pTemplate="input">
-            <input pInputText type="text" [(ngModel)]="attendee.MemberPhone" required/>
+            <input
+              pInputText
+              type="text"
+              [(ngModel)]="attendee.MemberPhone"
+              required
+            />
           </ng-template>
           <ng-template pTemplate="output">
             {{ attendee.MemberPhone }}
@@ -113,7 +129,15 @@
     </tr>
   </ng-template>
   <ng-template pTemplate="paginatorright">
-    <button pButton type="button"icon="pi pi-plus" class="ui-button-info" [label]="'Add'"
-    pAddRow [table]="attendeesTable" [newRow]="newAttendee"></button>
+    <button
+      pButton
+      type="button"
+      icon="pi pi-plus"
+      class="ui-button-info"
+      [label]="'Add'"
+      pAddRow
+      [table]="attendeesTable"
+      [newRow]="newRow()"
+    ></button>
   </ng-template>
 </p-table>

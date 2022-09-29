@@ -14,7 +14,6 @@ import { EventsComponent } from './events/events.component';
 import { CitiesComponent } from './cities/cities.component';
 import { MainComponent } from './main/main.component';
 import { CreateEventComponent } from './events/create-event/create-event.component';
-import { RegisterFormComponent } from './shared/register-form/register-form.component';
 import { RegisterAttendeeComponent } from './attendee/register-attendee/register-attendee.component';
 import { AttendeeComponent } from './attendee/attendee.component';
 
@@ -34,7 +33,7 @@ import { ToastModule } from 'primeng/toast';
 import { DialogModule } from 'primeng/dialog';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { AddRowDirective } from './add-row.directive';
+import { AddRowDirective } from './shared/add-row.directive';
 
 @NgModule({
   declarations: [
@@ -47,7 +46,6 @@ import { AddRowDirective } from './add-row.directive';
     CitiesComponent,
     MainComponent,
     CreateEventComponent,
-    RegisterFormComponent,
     RegisterAttendeeComponent,
     AttendeeComponent,
     AddRowDirective

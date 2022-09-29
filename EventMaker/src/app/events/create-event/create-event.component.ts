@@ -24,7 +24,7 @@ import { EventService } from 'src/app/services/event.service';
 })
 export class CreateEventComponent implements OnInit {
   regForm!: FormGroup;
-  submit!: boolean;
+  submitted: boolean = false;
   cityCode!: string;
   selectedCity!: City;
   cities!: Array<City>;
@@ -106,7 +106,7 @@ export class CreateEventComponent implements OnInit {
   }
 
   onCancel(): void {
-    console.log(this.cityCode)
+    console.log(this.cityCode);
     if (this.cityCode) {
       this.router.navigate([`cities/${this.cityCode}`]);
     } else {
@@ -115,33 +115,40 @@ export class CreateEventComponent implements OnInit {
   }
 
   onSubmit(formValues: any): void {
-    this.submit = true;
-    console.log(formValues);
-    console.log(this.regForm.valid);
-    formValues.startTime = formatDate(
-      formValues.startTime,
-      'M/d/yy, h:mm a',
-      'en-US'
-    );
-    formValues.endTime = formatDate(
-      formValues.endTime,
-      'M/d/yy, h:mm a',
-      'en-US'
-    );
-    this.eventService.addEvent(formValues).subscribe({
-      next: (res: any) => {
-        this.messageService.add({
-          severity: 'info',
-          summary: 'Succeed',
-          detail: `${formValues.eventName} created in ${formValues.city}`,
-        });
-      },
-      error: () => {
-        console.error('Error creating a new event');
-      },
-      complete: () => {
-        this.router.navigate([`cities/${this.cityCode}`]);
-      },
-    });
+    this.submitted = true;
+    if (this.regForm.valid) {
+      formValues.startTime = formatDate(
+        formValues.startTime,
+        'M/d/yy, h:mm a',
+        'en-US'
+      );
+      formValues.endTime = formatDate(
+        formValues.endTime,
+        'M/d/yy, h:mm a',
+        'en-US'
+      );
+      this.eventService.addEvent(formValues).subscribe({
+        next: (res: any) => {
+          this.messageService.add({
+            severity: 'info',
+            summary: 'Succeed',
+            detail: `${formValues.eventName} created in ${formValues.city}`,
+          });
+        },
+        error: () => {
+          console.error('Error creating a new event');
+        },
+        complete: () => {
+          this.router.navigate([`cities/${this.cityCode}`]);
+        },
+      });
+    } else {
+      console.log('Error submiting create new event');
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error submiting create new event',
+        detail: 'Please check your input',
+      });
+    }
   }
 }

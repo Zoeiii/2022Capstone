@@ -15,7 +15,6 @@ export class AttendeeComponent implements OnInit {
   @Input() description!: string;
   @Input() eventId!: number;
   clonedAttendee: { [s: string]: Attendee } = {};
-  newAttendee = { MemberName: '', MemberEmail: '', MemberPhone: '' };
 
   constructor(
     private attendeeService: AttendeeService,
@@ -81,7 +80,11 @@ export class AttendeeComponent implements OnInit {
     });
   }
 
-  addAttendee(attendee:Attendee) {
+  newRow(): any {
+    return { MemberName: '', MemberEmail: '', MemberPhone: '123-456-7890' };
+  }
+
+  addAttendee(attendee: Attendee) {
     this.attendeeService.addAttendee(this.eventId, attendee).subscribe({
       next: (res: Attendee) => {
         this.messageService.add({
@@ -98,7 +101,9 @@ export class AttendeeComponent implements OnInit {
           detail: `Unable to add new attendee, please try again later`,
         });
       },
-      complete: () => {},
+      complete: () => {
+        this.getEvent();
+      },
     });
   }
 
@@ -108,25 +113,27 @@ export class AttendeeComponent implements OnInit {
 
   onRowEditSave(attendee: Attendee) {
     if (attendee.MemberId) {
-    this.attendeeService.updateAttendeeInfo(this.eventId, attendee).subscribe({
-      next: () => {
-        delete this.clonedAttendee[attendee.MemberId];
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: 'Attendee information is updated',
+      this.attendeeService
+        .updateAttendeeInfo(this.eventId, attendee)
+        .subscribe({
+          next: () => {
+            delete this.clonedAttendee[attendee.MemberId];
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Success',
+              detail: 'Attendee information is updated',
+            });
+          },
+          error: (err) => {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Error updating attendee information',
+            });
+          },
+          complete: () => {},
         });
-      },
-      error: (err) => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'Error updating attendee information',
-        });
-      },
-      complete: () => {},
-    });}
-    else{
+    } else {
       this.addAttendee(attendee);
     }
   }
