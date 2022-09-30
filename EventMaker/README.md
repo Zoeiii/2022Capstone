@@ -1,27 +1,23 @@
-# EventMaker
+# All About Event
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.18.
 
-## Development server
+## Home Page
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Show a slide of current organization the user joined or owned
 
-## Code scaffolding
+## Header
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Contains Home button and organization buttons where you click and take you to the organization detail page.
 
-## Build
+## Search bar and Search Page
+Search Bar: After typing and hit enter, it will redirect to view the events in organization that user have accessed to, based on event name.
+If user type nothing and hit enter then it will display all the events accross the organization that user have accessed to.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Organization detail page
+Contains a list of events in this organization in table format.
+<br/>Events Detail table:
+<br/>>>> Have edit and delete button on the right side of the table to perform updates and delete.
+<br/>>>> Have expand button on the left side to view and update/delete attendees for this event.
 
-## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.

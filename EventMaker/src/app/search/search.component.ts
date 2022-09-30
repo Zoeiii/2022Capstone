@@ -35,7 +35,7 @@ export class SearchComponent implements OnInit {
         if (res) {
           this.caption = `Search result for event name that contains: ${this.searchInput}`;
         } else {
-          this.caption = `Search result for all the events in all four cities`;
+          this.caption = `Search result for all the events in the organization you joined or owned`;
         }
         this.getAllEvents();
         this.searchEventByName(res);

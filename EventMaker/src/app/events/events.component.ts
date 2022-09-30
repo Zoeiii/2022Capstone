@@ -121,7 +121,9 @@ export class EventsComponent implements OnInit {
 
   deleteEventById(eventId: number) {
     this.eventService.deleteEventById(eventId).subscribe({
-      next: (res: any) => {},
+      next: (res: EventGroup) => {
+        this.refresh();
+      },
       error: (err) => {
         this.messageService.add({
           severity: 'error',
@@ -130,7 +132,7 @@ export class EventsComponent implements OnInit {
         });
       },
       complete: () => {
-        this.refresh();
+        
       },
     });
   }
@@ -170,7 +172,7 @@ export class EventsComponent implements OnInit {
         this.messageService.add({
           severity: 'success',
           summary: 'Success',
-          detail: 'Event detail is updated',
+          detail: `Detail for ${event.EventName} is updated`,
         });
       },
       error: (err) => {
