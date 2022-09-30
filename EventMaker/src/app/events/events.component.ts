@@ -1,8 +1,9 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { Table } from 'primeng/table';
 
 import { City } from '../models/city';
 import { EventGroup } from '../models/eventGroup';
@@ -20,6 +21,7 @@ export class EventsComponent implements OnInit {
   @Input() events!: Array<EventGroup>;
   @Input() caption:string='';
   @Output() refreshEvent = new EventEmitter<boolean>();
+  @ViewChild('eventTable') eventTable!: Table;
   errorMessage!: string;
   currentCity!: City;
   readonly minDate = new Date();
@@ -154,8 +156,10 @@ export class EventsComponent implements OnInit {
     });
   }
 
-  onRowEditInit(event: EventGroup) {
+  onRowEditInit(event: EventGroup, index: number):void {
     this.clonedEvent[event.EventId] = { ...event };
+    console.log(this.eventTable)
+    this.eventTable.expandedRowKeys = {};
   }
 
   onRowEditSave(event: EventGroup, index: number) {

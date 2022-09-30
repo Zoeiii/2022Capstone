@@ -45,7 +45,7 @@ export class HomeComponent implements OnInit {
             code: city.CityCode,
             thumbnailImageSrc: city.CityImageSrc,
             previewImageSrc: city.CityImageSrc,
-            alt: `Event in ${city.CityName}`,
+            alt: city.Description,
           };
           return image;
         });

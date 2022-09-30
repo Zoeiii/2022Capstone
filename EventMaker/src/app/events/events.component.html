@@ -21,6 +21,7 @@
 
 <section>
     <p-table
+    #eventTable
       [value]="events"
       [paginator]="true"
       [rows]="10"
@@ -168,7 +169,7 @@
               type="button"
               pInitEditableRow
               icon="pi pi-pencil"
-              (click)="onRowEditInit(events)"
+              (click)="onRowEditInit(events, ri)"
               class="p-button-rounded p-button-text"
             ></button>
             <button
