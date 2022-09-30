@@ -6,6 +6,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import {
   ActivatedRoute,
   NavigationEnd,
@@ -34,22 +35,14 @@ export class CreateEventComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private title: Title,
     private activatedRoute: ActivatedRoute,
     private fb: FormBuilder,
     private eventService: EventService,
     private cityService: CityService,
     private messageService: MessageService
   ) {
-    // this.router.events.subscribe((event) => {
-    //   if (event instanceof NavigationEnd) {
-    //     let routeParam = this.activatedRoute.snapshot.paramMap.get('id');
-    //     this.cityCode = routeParam ? routeParam : '';
-    //     if(this.cityCode){
-    //       this.setDefaultCity(this.cityCode);
-    //     }
-    //   }
-    // });
-
+    title.setTitle('Create New Event');
     this.cityService.getAllCities().subscribe({
       next: (res: any) => {
         this.cities = res;
@@ -75,7 +68,7 @@ export class CreateEventComponent implements OnInit {
     this.regForm = this.fb.group({
       eventName: ['', Validators.required],
       eventOrganizer: ['', Validators.required],
-      eventOrganizerEmail: ['', Validators.required],
+      eventOrganizerEmail: ['', [Validators.required, Validators.email]],
       city: ['', Validators.required],
       location: ['', Validators.required],
       maxAttendeeSize: [5, Validators.required],

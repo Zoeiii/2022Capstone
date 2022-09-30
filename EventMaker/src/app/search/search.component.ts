@@ -28,7 +28,7 @@ export class SearchComponent implements OnInit {
     private eventService: EventService,
     private searchService: SearchService
   ) {
-    this.title.setTitle('Search for Events');
+    this.getAllEvents();
     this.searchService.searchInput$.subscribe({
       next: (res: string) => {
         this.searchInput = res;

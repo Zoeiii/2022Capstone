@@ -344,15 +344,15 @@ app.put("/api/groups", urlencodedParser, function (req, res) {
   match.EndTime = group.EndTime;
   match.Members = group.Members;
 
-  // make sure new values for MaxGroupSize doesn't invalidate grooup
-  if (Number(group.MaxGroupSize) < match.Members.length) {
+  // make sure new values for MaxAttendeeSize doesn't invalidate grooup
+  if (Number(group.MaxAttendeeSize) < match.Members.length) {
     res
       .status(409)
       .send("New group size too small based on current number of members");
     console.log("New group size too small based on current number of members");
     return;
   }
-  match.MaxGroupSize = Number(group.MaxGroupSize);
+  match.MaxAttendeeSize = Number(group.MaxAttendeeSize);
 
   fs.writeFileSync(__dirname + "/data/groups.json", JSON.stringify(data));
 
@@ -417,7 +417,7 @@ app.post("/api/groups/:id/members", urlencodedParser, function (req, res) {
     return;
   }
 
-  if (match.Members.length == match.MaxGroupSize) {
+  if (match.Members.length == match.MaxAttendeeSize) { 
     res.status(409).send("Member not added - group at capacity");
     console.log("Member not added - group at capacity");
     return;

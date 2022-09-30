@@ -17,8 +17,10 @@ export class AttendeeComponent implements OnInit {
   @Input() description!: string;
   @Input() eventId!: number;
   @ViewChild('attendeesTable') attendeesTable!: Table;
+  editingCell=false;
   clonedAttendee: { [s: string]: Attendee } = {};
   submitted = false;
+  num = 1;
 
   constructor(
     private attendeeService: AttendeeService,
@@ -38,7 +40,7 @@ export class AttendeeComponent implements OnInit {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: err.message,
+          detail: err.error,
         });
       },
       complete: () => {
@@ -84,12 +86,24 @@ export class AttendeeComponent implements OnInit {
     });
   }
 
-  newRow(): any {
-    return { MemberName: '', MemberEmail: '', MemberPhone: '' };
+  // newRow(): any {
+  //   return { MemberName: '', MemberEmail: '', MemberPhone: '' };
+  // }
+
+  addNewAttendee(event:Event){
+    let newRow = { MemberName: '', MemberEmail: '', MemberPhone: '' };
+    this.editingCell = true;
+    // Insert a new row
+    this.attendeesTable.value.unshift(newRow);
+
+    // Set the new row in edit mode
+    this.attendeesTable.initRowEdit(newRow);
+
+    event.preventDefault();
   }
 
   validateInput(attendee: Attendee): boolean {
-    console.log(this.attendeesTable);
+    console.log(attendee);
     if (attendee.MemberName.trim() == '') {
       console.log(attendee.MemberName.trim());
       return false;
@@ -103,6 +117,7 @@ export class AttendeeComponent implements OnInit {
 
   addAttendee(attendee: Attendee) {
     this.submitted = true;
+    attendee.MemberEmail = attendee.MemberEmail.toLocaleLowerCase();
     this.attendeeService.addAttendee(this.eventId, attendee).subscribe({
       next: (res: Attendee) => {
         this.messageService.add({
@@ -112,15 +127,17 @@ export class AttendeeComponent implements OnInit {
         });
       },
       error: (err) => {
+        console.log(err)
         this.attendees.shift();
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: `Unable to add new attendee, please try again later`,
+          detail: `${err.error}`,
         });
       },
       complete: () => {
         this.submitted = false;
+        this.editingCell = false;
         this.getEvent();
       },
     });
@@ -128,6 +145,7 @@ export class AttendeeComponent implements OnInit {
 
   onRowEditInit(attendee: Attendee, index: number) {
     // this.attendeesTable.editingRowKeys = {[attendee.MemberId]:true}
+    this.editingCell = true;
     this.clonedAttendee[attendee.MemberId] = { ...attendee };
   }
 
@@ -149,23 +167,27 @@ export class AttendeeComponent implements OnInit {
               this.messageService.add({
                 severity: 'error',
                 summary: 'Error',
-                detail: 'Error updating attendee information',
+                detail: err.error,
               });
             },
-            complete: () => {},
+            complete: () => {
+              this.editingCell = false;
+            },
           });
       } else {
         this.addAttendee(attendee);
       }
+    } else {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Check your inputs',
+      });
     }
-    this.messageService.add({
-      severity: 'error',
-      summary: 'Error',
-      detail: 'Error updating attendee information',
-    });
   }
 
   onRowEditCancel(attendee: Attendee, index: number) {
+    this.editingCell = false;
     let editOrAdd = 'Edit';
     if (attendee.MemberId) {
       this.attendees[index] = this.clonedAttendee[attendee.MemberId];

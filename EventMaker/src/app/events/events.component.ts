@@ -46,15 +46,13 @@ export class EventsComponent implements OnInit {
     },
     {
       name: 'City',
-      sortableColumnName: 'City Name',
+      sortableColumnName: 'CityName',
     },
     {
       name: 'Max Attendee',
       sortableColumnName: 'MaxAttendeeSize',
     },
   ];
-
-  _selectedColumns!: any[];
 
   clonedEvent: { [s: string]: EventGroup } = {};
 
@@ -70,17 +68,6 @@ export class EventsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._selectedColumns = this.tableHeader;
-  }
-
-  @Input() get selectedColumns(): any[] {
-    return this._selectedColumns;
-  }
-
-  set selectedColumns(val: any[]) {
-    //restore original order
-    this._selectedColumns = this.tableHeader.filter((col) => val.includes(col));
-    console.log('selected: ', val, this._selectedColumns);
   }
 
   //TODO: refresh the search result
@@ -171,7 +158,7 @@ export class EventsComponent implements OnInit {
     this.clonedEvent[event.EventId] = { ...event };
   }
 
-  onRowEditSave(event: EventGroup) {
+  onRowEditSave(event: EventGroup, index: number) {
     console.log(event);
     this.eventService.updateEvent(event).subscribe({
       next: () => {
@@ -186,8 +173,9 @@ export class EventsComponent implements OnInit {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: err.message,
+          detail: err.error,
         });
+        this.onRowEditCancel(event, index);
       },
       complete: () => {},
     });

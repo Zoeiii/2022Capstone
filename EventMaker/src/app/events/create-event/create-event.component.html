@@ -70,7 +70,7 @@
         <div class="p-inputgroup">
           <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
           <input
-            type="text"
+            type="email"
             pInputText
             id="eventOrganizerEmail"
             formControlName="eventOrganizerEmail"
@@ -84,7 +84,7 @@
         <small
           *ngIf="!regForm.controls['eventOrganizerEmail'].valid && submitted"
           class="p-error"
-          >Enter the organizer's email of this event
+          >Enter the organizer's email of this event in correct form
         </small>
       </div>
       <div class="field col-6 md-2">
@@ -182,6 +182,7 @@
   <ng-template pTemplate="footer">
     <button
       pButton
+      style="margin-right:20px"
       type="submit"
       label="Create"
       (click)="onSubmit(regForm.value)"

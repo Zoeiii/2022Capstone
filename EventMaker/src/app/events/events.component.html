@@ -178,7 +178,7 @@
               type="button"
               pSaveEditableRow
               icon="pi pi-check"
-              (click)="onRowEditSave(events)"
+              (click)="onRowEditSave(events,ri)"
               class="p-button-rounded p-button-text p-button-success p-mr-2"
             ></button>
             <button
@@ -205,7 +205,7 @@
       </ng-template>
       <ng-template pTemplate="emptymessage">
         <tr>
-          <td colspan="6">There are no event for this city yet.</td>
+          <td colspan="9" style="text-align:center;">There are no event for this city yet.</td>
         </tr>
       </ng-template>
       <ng-template pTemplate="paginatorleft">

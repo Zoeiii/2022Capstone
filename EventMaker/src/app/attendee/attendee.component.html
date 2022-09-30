@@ -8,6 +8,7 @@
   editMode="row"
 >
   <ng-template pTemplate="caption">
+    
     <p style="text-align: center">{{ description }}</p>
   </ng-template>
   <ng-template pTemplate="header">
@@ -132,7 +133,8 @@
     </tr>
   </ng-template>
   <ng-template pTemplate="paginatorright">
-    <button
+    <!-- <button
+      *ngIf="!editingCell"
       pButton
       type="button"
       icon="pi pi-plus"
@@ -141,6 +143,15 @@
       pAddRow
       [table]="attendeesTable"
       [newRow]="newRow()"
+    ></button> -->
+    <button
+    *ngIf="!editingCell"
+      pButton
+      type="button"
+      icon="pi pi-plus"
+      class="ui-button-info"
+      [label]="'Add'"
+      (click)="addNewAttendee($event)"
     ></button>
   </ng-template>
 </p-table>
