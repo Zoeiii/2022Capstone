@@ -45,7 +45,7 @@ export class HeaderComponent implements OnInit {
             label: city.CityName,
             icon: 'pi pi-fw pi-cloud',
             command: () => {
-              this.router.navigate([`cities/${city.CityCode}`]);
+              this.router.navigate([`org/${city.CityCode}`]);
             },
           });
         });

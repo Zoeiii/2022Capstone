@@ -20,7 +20,7 @@ export class EventsComponent implements OnInit {
   @Input() cityCode: string = '';
   @Input() events!: Array<EventGroup>;
   @Input() caption:string='';
-  @Output() refreshEvent = new EventEmitter<boolean>();
+  @Input() viewOnly = false;
   @ViewChild('eventTable') eventTable!: Table;
   errorMessage!: string;
   currentCity!: City;
@@ -47,7 +47,7 @@ export class EventsComponent implements OnInit {
       sortableColumnName: 'Location',
     },
     {
-      name: 'City',
+      name: 'Organization Name',
       sortableColumnName: 'CityName',
     },
     {

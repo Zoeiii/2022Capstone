@@ -48,7 +48,7 @@
             {{ header.name }}
             <p-sortIcon [field]="header.sortableColumnName"></p-sortIcon>
           </th>
-          <th>Edit/Delete</th>
+          <th *ngIf="!viewOnly">Edit/Delete</th>
         </tr>
       </ng-template>
       <ng-template
@@ -161,7 +161,7 @@
               >
             </p-cellEditor>
           </td>
-          <td style="text-align: center">
+          <td style="text-align: center" *ngIf="!viewOnly">
             <button
               *ngIf="!editing"
               pButton

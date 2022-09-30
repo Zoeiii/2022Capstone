@@ -8,7 +8,7 @@ import { SearchComponent } from './search/search.component';
 
 const fallbackRoute: Route = { path: '**', component: HomeComponent };
 const routes: Routes = [
-  { path: 'cities/:id', component: CitiesComponent },
+  { path: 'org/:id', component: CitiesComponent },
   { path: 'search', component: SearchComponent },
   { path: 'home', component: HomeComponent },
   { path: 'createNewEvent/:id', component: CreateEventComponent },

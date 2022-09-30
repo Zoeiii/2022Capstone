@@ -101,7 +101,7 @@ export class CreateEventComponent implements OnInit {
   onCancel(): void {
     console.log(this.cityCode);
     if (this.cityCode) {
-      this.router.navigate([`cities/${this.cityCode}`]);
+      this.router.navigate([`org/${this.cityCode}`]);
     } else {
       this.router.navigate(['']);
     }
@@ -132,7 +132,7 @@ export class CreateEventComponent implements OnInit {
           console.error('Error creating a new event');
         },
         complete: () => {
-          this.router.navigate([`cities/${this.cityCode}`]);
+          this.router.navigate([`org/${this.cityCode}`]);
         },
       });
     } else {

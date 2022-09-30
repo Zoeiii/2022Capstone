@@ -14,7 +14,7 @@ export class HomeComponent implements OnInit {
   images!: any[];
 
   constructor(private cityService: CityService, private router: Router, private title:Title) {
-    this.title.setTitle('Event Maker');
+    this.title.setTitle('All About Event');
   }
 
   responsiveOptions:any[] = [
@@ -55,6 +55,6 @@ export class HomeComponent implements OnInit {
 
   navigateToCity(event:any){
     let cityCode = event.target.name;
-    this.router.navigate([`cities/${cityCode}`]);
+    this.router.navigate([`org/${cityCode}`]);
   }
 }
